@@ -17,13 +17,19 @@ class _plansState extends State<plans> {
     return Scaffold(
       backgroundColor: Color(0xffF5F5F5),
       appBar: AppBar(
+        toolbarHeight: height/9.59,
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xffffffff),
+        elevation: 0,
+        backgroundColor: Color(0xffF5F5F5),
+
         flexibleSpace: Container(
-          height: height/7.59,
+          height: height/7.09,
           width: width/3.92,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(17),
+          borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(25),
+          bottomRight: Radius.circular(25),
+        ),
 
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -70,20 +76,20 @@ class _plansState extends State<plans> {
       body:Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(top: height/25.3,left:width/ 19.6),
+            padding: EdgeInsets.only(top: height/35.3,left:width/ 19.6),
             child: Text("Latest Plans",style: GoogleFonts.amaranth(
-              fontSize: 25 ,
+              fontSize: 26,
               fontWeight: FontWeight.w500,
             ),),
           ),
           Padding(
-            padding: EdgeInsets.only(top: height/75.9,left: width/19.6),
+            padding: EdgeInsets.only(top: height/65.9,left: width/19.6,bottom: height/105.9,),
             child: Material(
               elevation: 3,
               borderRadius: BorderRadius.circular(20),
               shadowColor: Colors.grey,
               child: Container(
-                height: height/7.44,
+                height: height/8,
                 width: width/1.12,
                 decoration: BoxDecoration(
                   color:Color(0xffffffff),
@@ -100,10 +106,11 @@ class _plansState extends State<plans> {
                           padding: EdgeInsets.only(top: height/50.6,left:width/19.6),
                           child: Text("NEW ENDOWMENT",style: TextStyle(
                               fontFamily: "Davish",fontSize: 25,
-                          fontWeight:FontWeight.w600),),
+                          letterSpacing: 1,
+                          fontWeight:FontWeight.w500),),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: width/5.6,top: height/50.6),
+                          padding: EdgeInsets.only(left: width/7.0,top: height/50.6),
                           child: GestureDetector(
                             onTap: ()
                             {
@@ -123,8 +130,8 @@ class _plansState extends State<plans> {
                                       begin: Alignment.topCenter,
                                       end: Alignment.bottomCenter,
                                       colors: [
-                                        Color(0xff0a904c),
-                                        Color(0xff018266),
+                                        Color(0xff0C9346),
+                                        Color(0xff008069),
                                       ]
                                   ),
                                   color: Color(0xff0a904c)
@@ -142,12 +149,12 @@ class _plansState extends State<plans> {
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: height/25.3),
+                      padding: EdgeInsets.only(top: height/33.3),
                       child: Container(
                         height: height/25.3,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Color(0xffD1CDCD),
+                          color: Color(0xffD1CDCD).withOpacity(0.32),
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20),
@@ -156,22 +163,18 @@ class _plansState extends State<plans> {
                         child: Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: width/8.53),
+                              padding: EdgeInsets.only(left: width/20.53),
                               child: Text(
                                 'Plan No: 914',
                                 style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize:14,color: Color(0xff000000)),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left:width/4.35),
+                              padding: EdgeInsets.only(left:width/3.6),
                               child: Text(
                                 'Endowment Plan',
-                                style: TextStyle(
-                                  color: Color(0xff008069),
-                                  fontSize: 14,
-                                  fontFamily: "Segoe UI",
-                                  fontWeight: FontWeight.w600
-                                ),
+                                style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize:14,color: Color(0xff0C9346)),
+
                               ),
                             ),
                           ],
@@ -184,13 +187,13 @@ class _plansState extends State<plans> {
             ),
           ),
           Padding(
-            padding:EdgeInsets.only(top: height/37.95,left:width/ 19.6),
+            padding: EdgeInsets.only(top: height/65.9,left: width/19.6,bottom: height/105.9,),
             child: Material(
               elevation: 3,
               borderRadius: BorderRadius.circular(20),
               shadowColor: Colors.grey,
               child: Container(
-                height: height/7.44,
+                height: height/8,
                 width: width/1.12,
                 decoration: BoxDecoration(
                     color:Color(0xffffffff),
@@ -204,49 +207,58 @@ class _plansState extends State<plans> {
                     Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: height/50.6,left: width/19.6),
-                          child: Text("NEW JEEVAN ANAND",style: TextStyle(
+                          padding: EdgeInsets.only(top: height/50.6,left:width/19.6),
+                          child: Text("NEW ENDOWMENT",style: TextStyle(
                               fontFamily: "Davish",fontSize: 25,
-                              fontWeight:FontWeight.w600),),
+                              letterSpacing: 1,
+                              fontWeight:FontWeight.w500),),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: width/7.12,top: height/50.6),
-                          child: Container(
-                            height: height/30.36,
-                            width: width/3.56,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color:  Color(0xff0a904c),
-                                ),
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Color(0xff0a904c),
-                                      Color(0xff018266),
-                                    ]
-                                ),
-                                color: Color(0xff0a904c)
-                            ),
-                            child: Center(
-                              child: Text("View Plan",style: TextStyle(
-                                  fontFamily: "Davish",
-                                  color: Colors.white,
-                                  fontSize: 18
-                              )),
+                          padding: EdgeInsets.only(left: width/7.0,top: height/50.6),
+                          child: GestureDetector(
+                            onTap: ()
+                            {
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context)=>endowment())
+                              );
+                            },
+                            child: Container(
+                              height: height/30.36,
+                              width: width/3.56,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color:  Color(0xff0a904c),
+                                  ),
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Color(0xff0C9346),
+                                        Color(0xff008069),
+                                      ]
+                                  ),
+                                  color: Color(0xff0a904c)
+                              ),
+                              child: Center(
+                                child: Text("View Plan",style: TextStyle(
+                                    fontFamily: "Davish",
+                                    color: Colors.white,
+                                    fontSize: 18
+                                )),
+                              ),
                             ),
                           ),
                         )
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: height/25.3),
+                      padding: EdgeInsets.only(top: height/33.3),
                       child: Container(
                         height: height/25.3,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Color(0xffD1CDCD),
+                          color: Color(0xffD1CDCD).withOpacity(0.32),
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20),
@@ -255,22 +267,18 @@ class _plansState extends State<plans> {
                         child: Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: width/8.53),
+                              padding: EdgeInsets.only(left: width/20.53),
                               child: Text(
                                 'Plan No: 914',
                                 style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize:14,color: Color(0xff000000)),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left:width/4.35),
+                              padding: EdgeInsets.only(left:width/3.6),
                               child: Text(
                                 'Endowment Plan',
-                                style: TextStyle(
-                                    color: Color(0xff008069),
-                                    fontSize: 14,
-                                    fontFamily: "Segoe UI",
-                                    fontWeight: FontWeight.w600
-                                ),
+                                style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize:14,color: Color(0xff0C9346)),
+
                               ),
                             ),
                           ],
@@ -283,13 +291,13 @@ class _plansState extends State<plans> {
             ),
           ),
           Padding(
-            padding:  EdgeInsets.only(top:height/37.95,left: width/19.6),
+            padding: EdgeInsets.only(top: height/65.9,left: width/19.6,bottom: height/105.9,),
             child: Material(
               elevation: 3,
               borderRadius: BorderRadius.circular(20),
               shadowColor: Colors.grey,
               child: Container(
-                height:height/7.44,
+                height: height/8,
                 width: width/1.12,
                 decoration: BoxDecoration(
                     color:Color(0xffffffff),
@@ -303,49 +311,58 @@ class _plansState extends State<plans> {
                     Row(
                       children: [
                         Padding(
-                          padding:  EdgeInsets.only(top:height/50.6,left:width/19.6),
-                          child: Text("JEEVAN LAKSHYA",style: TextStyle(
+                          padding: EdgeInsets.only(top: height/50.6,left:width/19.6),
+                          child: Text("NEW ENDOWMENT",style: TextStyle(
                               fontFamily: "Davish",fontSize: 25,
-                              fontWeight:FontWeight.w600),),
+                              letterSpacing: 1,
+                              fontWeight:FontWeight.w500),),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: width/4.78,top: height/50.6),
-                          child: Container(
-                            height: height/30.36,
-                            width:width/3.56,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color:  Color(0xff0a904c),
-                                ),
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Color(0xff0a904c),
-                                      Color(0xff018266),
-                                    ]
-                                ),
-                                color: Color(0xff0a904c)
-                            ),
-                            child: Center(
-                              child: Text("View Plan",style: TextStyle(
-                                  fontFamily: "Davish",
-                                  color: Colors.white,
-                                  fontSize: 18
-                              )),
+                          padding: EdgeInsets.only(left: width/7.0,top: height/50.6),
+                          child: GestureDetector(
+                            onTap: ()
+                            {
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context)=>endowment())
+                              );
+                            },
+                            child: Container(
+                              height: height/30.36,
+                              width: width/3.56,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color:  Color(0xff0a904c),
+                                  ),
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Color(0xff0C9346),
+                                        Color(0xff008069),
+                                      ]
+                                  ),
+                                  color: Color(0xff0a904c)
+                              ),
+                              child: Center(
+                                child: Text("View Plan",style: TextStyle(
+                                    fontFamily: "Davish",
+                                    color: Colors.white,
+                                    fontSize: 18
+                                )),
+                              ),
                             ),
                           ),
                         )
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: height/25.3),
+                      padding: EdgeInsets.only(top: height/33.3),
                       child: Container(
                         height: height/25.3,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Color(0xffD1CDCD),
+                          color: Color(0xffD1CDCD).withOpacity(0.32),
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20),
@@ -354,22 +371,18 @@ class _plansState extends State<plans> {
                         child: Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: width/8.53),
+                              padding: EdgeInsets.only(left: width/20.53),
                               child: Text(
                                 'Plan No: 914',
                                 style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize:14,color: Color(0xff000000)),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left:width/4.35),
+                              padding: EdgeInsets.only(left:width/3.6),
                               child: Text(
-                                'Money Back Plan',
-                                style: TextStyle(
-                                    color: Color(0xff008069),
-                                    fontSize: 14,
-                                    fontFamily: "Segoe UI",
-                                    fontWeight: FontWeight.w600
-                                ),
+                                'Endowment Plan',
+                                style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize:14,color: Color(0xff0C9346)),
+
                               ),
                             ),
                           ],
@@ -382,14 +395,14 @@ class _plansState extends State<plans> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: height/37.95,left:width/19.6),
+            padding: EdgeInsets.only(top: height/65.9,left: width/19.6,bottom: height/105.9,),
             child: Material(
               elevation: 3,
               borderRadius: BorderRadius.circular(20),
               shadowColor: Colors.grey,
               child: Container(
-                height: height/7.15,
-                width:width/1.12,
+                height: height/8,
+                width: width/1.12,
                 decoration: BoxDecoration(
                     color:Color(0xffffffff),
                     border: Border.all(
@@ -402,49 +415,58 @@ class _plansState extends State<plans> {
                     Row(
                       children: [
                         Padding(
-                          padding:  EdgeInsets.only(top:height/40.1,left:width/27.95),
-                          child: Text("JEEVAN LABH",style: TextStyle(
+                          padding: EdgeInsets.only(top: height/50.6,left:width/19.6),
+                          child: Text("NEW ENDOWMENT",style: TextStyle(
                               fontFamily: "Davish",fontSize: 25,
-                              fontWeight:FontWeight.w600),),
+                              letterSpacing: 1,
+                              fontWeight:FontWeight.w500),),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: width/3.62,top: height/50.6),
-                          child: Container(
-                            height: height/30.36,
-                            width: width/3.56,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color:  Color(0xff0a904c),
-                                ),
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Color(0xff0a904c),
-                                      Color(0xff018266),
-                                    ]
-                                ),
-                                color: Color(0xff0a904c)
-                            ),
-                            child: Center(
-                              child: Text("View Plan",style: TextStyle(
-                                  fontFamily: "Davish",
-                                  color: Colors.white,
-                                  fontSize: 18
-                              )),
+                          padding: EdgeInsets.only(left: width/7.0,top: height/50.6),
+                          child: GestureDetector(
+                            onTap: ()
+                            {
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context)=>endowment())
+                              );
+                            },
+                            child: Container(
+                              height: height/30.36,
+                              width: width/3.56,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color:  Color(0xff0a904c),
+                                  ),
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Color(0xff0C9346),
+                                        Color(0xff008069),
+                                      ]
+                                  ),
+                                  color: Color(0xff0a904c)
+                              ),
+                              child: Center(
+                                child: Text("View Plan",style: TextStyle(
+                                    fontFamily: "Davish",
+                                    color: Colors.white,
+                                    fontSize: 18
+                                )),
+                              ),
                             ),
                           ),
                         )
                       ],
                     ),
                     Padding(
-                      padding:  EdgeInsets.only(top:height/25.3),
+                      padding: EdgeInsets.only(top: height/33.3),
                       child: Container(
                         height: height/25.3,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Color(0xffD1CDCD),
+                          color: Color(0xffD1CDCD).withOpacity(0.32),
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20),
@@ -453,22 +475,18 @@ class _plansState extends State<plans> {
                         child: Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: width/8.53),
+                              padding: EdgeInsets.only(left: width/20.53),
                               child: Text(
                                 'Plan No: 914',
                                 style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize:14,color: Color(0xff000000)),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left:width/4.35),
+                              padding: EdgeInsets.only(left:width/3.6),
                               child: Text(
-                                'Money Back Plan',
-                                style: TextStyle(
-                                    color: Color(0xff008069),
-                                    fontSize: 14,
-                                    fontFamily: "Segoe UI",
-                                    fontWeight: FontWeight.w600
-                                ),
+                                'Endowment Plan',
+                                style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize:14,color: Color(0xff0C9346)),
+
                               ),
                             ),
                           ],
@@ -481,14 +499,14 @@ class _plansState extends State<plans> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: height/37.95,left:width/19.6),
+            padding: EdgeInsets.only(top: height/65.9,left: width/19.6,bottom: height/105.9,),
             child: Material(
               elevation: 3,
               borderRadius: BorderRadius.circular(20),
               shadowColor: Colors.grey,
               child: Container(
-                height: height/7.15,
-                width:width/1.12,
+                height: height/8,
+                width: width/1.12,
                 decoration: BoxDecoration(
                     color:Color(0xffffffff),
                     border: Border.all(
@@ -501,49 +519,58 @@ class _plansState extends State<plans> {
                     Row(
                       children: [
                         Padding(
-                          padding:  EdgeInsets.only(top:height/40.1,left:width/27.95),
-                          child: Text("AADHAR STAMBH",style: TextStyle(
+                          padding: EdgeInsets.only(top: height/50.6,left:width/19.6),
+                          child: Text("NEW ENDOWMENT",style: TextStyle(
                               fontFamily: "Davish",fontSize: 25,
-                              fontWeight:FontWeight.w600),),
+                              letterSpacing: 1,
+                              fontWeight:FontWeight.w500),),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(left: width/4.62,top: height/50.6),
-                          child: Container(
-                            height: height/30.36,
-                            width: width/3.56,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                  color:  Color(0xff0a904c),
-                                ),
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Color(0xff0a904c),
-                                      Color(0xff018266),
-                                    ]
-                                ),
-                                color: Color(0xff0a904c)
-                            ),
-                            child: Center(
-                              child: Text("View Plan",style: TextStyle(
-                                  fontFamily: "Davish",
-                                  color: Colors.white,
-                                  fontSize: 18
-                              )),
+                          padding: EdgeInsets.only(left: width/7.0,top: height/50.6),
+                          child: GestureDetector(
+                            onTap: ()
+                            {
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context)=>endowment())
+                              );
+                            },
+                            child: Container(
+                              height: height/30.36,
+                              width: width/3.56,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  border: Border.all(
+                                    color:  Color(0xff0a904c),
+                                  ),
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Color(0xff0C9346),
+                                        Color(0xff008069),
+                                      ]
+                                  ),
+                                  color: Color(0xff0a904c)
+                              ),
+                              child: Center(
+                                child: Text("View Plan",style: TextStyle(
+                                    fontFamily: "Davish",
+                                    color: Colors.white,
+                                    fontSize: 18
+                                )),
+                              ),
                             ),
                           ),
                         )
                       ],
                     ),
                     Padding(
-                      padding:  EdgeInsets.only(top:height/25.3),
+                      padding: EdgeInsets.only(top: height/33.3),
                       child: Container(
                         height: height/25.3,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Color(0xffD1CDCD),
+                          color: Color(0xffD1CDCD).withOpacity(0.32),
                           borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20),
@@ -552,22 +579,18 @@ class _plansState extends State<plans> {
                         child: Row(
                           children: [
                             Padding(
-                              padding: EdgeInsets.only(left: width/8.53),
+                              padding: EdgeInsets.only(left: width/20.53),
                               child: Text(
                                 'Plan No: 914',
                                 style: GoogleFonts.poppins(fontWeight: FontWeight.w500,fontSize:14,color: Color(0xff000000)),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left:width/4.35),
+                              padding: EdgeInsets.only(left:width/3.6),
                               child: Text(
-                                'Money Back Plan',
-                                style: TextStyle(
-                                    color: Color(0xff008069),
-                                    fontSize: 14,
-                                    fontFamily: "Segoe UI",
-                                    fontWeight: FontWeight.w600
-                                ),
+                                'Endowment Plan',
+                                style: GoogleFonts.poppins(fontWeight: FontWeight.w600,fontSize:14,color: Color(0xff0C9346)),
+
                               ),
                             ),
                           ],
@@ -579,6 +602,7 @@ class _plansState extends State<plans> {
               ),
             ),
           ),
+
         ],
       ),
 

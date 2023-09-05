@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1071854083954",
+    "project_id": "kp-enterpries",
+    "storage_bucket": "kp-enterpries.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071854083954:android:07e590b2cf2596cbe1c7eb",
+        "android_client_info": {
+          "package_name": "com.example.kpe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071854083954-krpvc9jrdhhsahugoe8gm1f4hmpobq6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkORVqsKCy3VhIP_NHsMEaecD533kqLgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071854083954-krpvc9jrdhhsahugoe8gm1f4hmpobq6d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
