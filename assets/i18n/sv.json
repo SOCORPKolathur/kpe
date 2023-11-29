@@ -1,0 +1,12 @@
+{
+  "app_bar":
+  {
+    "title": "Welcome to the home page",
+    "welcome" : "Welcome",
+    "todotheworkofjesus" : "TO DO THE WORK OF JESUS"
+  },
+
+  "dashboard_view": {
+    "welcome" : "Welcome"
+  }
+}

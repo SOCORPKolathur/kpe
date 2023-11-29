@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../Auth Pages/Login_Page.dart';
+import '../Translator_Module/Translator_Module_Page.dart';
 
 
 class homepage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _homepageState extends State<homepage> {
   
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 3),(){
+    Future.delayed(const Duration(seconds: 2),(){
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const loginpage(),));
     });
     // TODO: implement initState
@@ -34,15 +35,13 @@ class _homepageState extends State<homepage> {
             child: Padding(
               padding:
               EdgeInsets.only(left: width / 19.6, top: height/4.74),
-              child: Container(
-                child: Image.asset("assets/tree.png"),
-              ),
+              child: Image.asset("assets/KPE LOGO.png"),
             ),
           ),
           Padding(
             padding: EdgeInsets.only(bottom: height / 5.10),
-            child: const Text(
-                'Your life insurance partner',
+            child: const KText(
+                text: 'Your life insurance partner',
                 style:TextStyle(
                     fontFamily: "Davish",
                     fontWeight: FontWeight.w500,

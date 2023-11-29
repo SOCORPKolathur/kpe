@@ -52,10 +52,11 @@ class _BannerSliderState extends State<BannerSlider> {
                   )
                   :
 
-              Container(
+              SizedBox(
 
-                width:width/1,
-                height:height/8.6,
+                height: height / 5.00,
+                width: width / 1,
+
                 child: CarouselSlider.builder(
                     itemCount: snapShot.data!.length,
                     itemBuilder: ( context,int index, int) {
@@ -63,28 +64,121 @@ class _BannerSliderState extends State<BannerSlider> {
                       Map? getImage = sliderImage.data() as Map? ;
                       return
                         Container(
+                            height: height / 5.00,
+                            width: width / 1.07,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            image: DecorationImage(
+                              fit: BoxFit.fill,
+                                image: CachedNetworkImageProvider(
+                                    getImage!["urls"]
+                                ),
+                            )
 
-                          width:width/1.12,
-                          height:height/8.6,
-
-                          child: Container(
-
-                              width:width/1.12,
-                              height:height/8.92,
-                            decoration: BoxDecoration(
-
-                              borderRadius: BorderRadius.circular(12)
-                            ),
-                            child: getImage == null ? null :
-                            CachedNetworkImage(
-                                width:width/1.12,
-                              height:height/8.92,
-                              fit: BoxFit.contain,
-                               imageUrl: getImage["urls"] ?? '')
                           ),
-                      );
+
+                        );
                     },
                     options: CarouselOptions(
+                        viewportFraction: 1,
+                        initialPage: 0,
+                        autoPlay: true,
+
+
+                        onPageChanged:
+                            (int i, carouselPageChangedReason) {
+                          setState(() {
+                            _index = i;
+                          });
+                        })),
+              );
+            },
+          ),
+      ],
+    );
+
+  }
+}
+
+
+class Banner2 extends StatefulWidget {
+  const Banner2({Key? key}) : super(key: key);
+
+  @override
+  State<Banner2> createState() => _Banner2State();
+}
+
+class _Banner2State extends State<Banner2> {
+  int _index = 0;
+  int _dataLength = 1;
+
+  @override
+  void initState() {
+    getSliderImageFromDb();
+    super.initState();
+  }
+
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getSliderImageFromDb() async {
+    var _fireStore = FirebaseFirestore.instance;
+    QuerySnapshot<Map<String,dynamic>> snapshot = await _fireStore.collection('slider2').get();
+    if (mounted) {
+      setState(() {
+        _dataLength = snapshot.docs.length;
+      });
+    }
+    return snapshot.docs;
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double  width = MediaQuery.of(context).size.width;
+    return Column(
+      children: [
+        if (_dataLength != 0)
+          FutureBuilder(
+            future: getSliderImageFromDb(),
+            builder: (_, AsyncSnapshot<List<QueryDocumentSnapshot<Map<String, dynamic>>>> snapShot)  {
+
+              return snapShot.data == null? const Scaffold(
+                body: Center(
+
+                  child: CircularProgressIndicator(
+
+                  ),
+                ),
+              )
+                  :
+
+              SizedBox(
+                height: height / 6.59,
+                width: width / 1,
+
+                child: CarouselSlider.builder(
+                    itemCount: snapShot.data!.length,
+                    itemBuilder: ( context,int index, int) {
+                      DocumentSnapshot sliderImage = snapShot.data![index];
+                      Map? getImage = sliderImage.data() as Map? ;
+                      return
+                        Container(
+                            height: height / 6.59,
+                            width: width/1.07,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                                borderRadius: BorderRadius.circular(15),
+                              image:  DecorationImage(
+                                fit: BoxFit.fill,
+                                image: CachedNetworkImageProvider(
+                                  getImage!["urls"] ,
+                                )
+                            ),
+                            ),
+
+                        );
+                    },
+                    options: CarouselOptions(
+
                         viewportFraction: 1,
                         initialPage: 0,
                         autoPlay: true,
