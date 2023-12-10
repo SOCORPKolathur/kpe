@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fancy_flutter_dialog/fancy_flutter_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../Auth Pages/Login_Page.dart';
 import '../Calculator_Page/Calculator_Page.dart';
 import '../Marketing_Videos_Page/Marketing_Videos_Page.dart';
 import '../Plan_Comb_Page/Plan_Comb_Page.dart';
@@ -34,6 +36,30 @@ class firstpage extends StatefulWidget {
 
 class _firstpageState extends State<firstpage> {
 
+
+  String UserToken='';
+  String UserImg='';
+  String userid= FirebaseAuth.instance.currentUser!.uid;
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    Userdata();
+    super.initState();
+  }
+
+  Userdata()async{
+
+    var User=await FirebaseFirestore.instance.collection("Users").doc(userid).get();
+
+    Map<String,dynamic>?values=User.data();
+    setState(() {
+      UserToken=values!["fcm_token"];
+      UserImg=values!["Img"];
+    });
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +111,9 @@ class _firstpageState extends State<firstpage> {
                   borderRadius: BorderRadius.circular(width / 12.06),
                   border: Border.all(color: const Color(0xffCFE8FF)),
                 ),
-                child: Image.asset("assets/pic.png"),
+                child:
+                UserImg==""?
+                Image.asset("assets/pic.png"):Image.network(UserImg.toString()),
               ),
             ),
           ],
@@ -679,7 +707,9 @@ class _firstpageState extends State<firstpage> {
                           ///policies remainder
                           GestureDetector(
                             onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const Policies_Remainder_Page(),));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) =>  Policies_Remainder_Page(
+                                  Token:UserToken.toString()
+                              ),));
                             },
                             child: Column(
                               children: [
@@ -840,33 +870,39 @@ class _firstpageState extends State<firstpage> {
     final height = MediaQuery.of(context).size.height;
     return showDialog<void>(
       context: context,
-
       builder: (BuildContext context) {
         return AlertDialog(
-          title: KText(
-            text:"Are Your Want To Logout",
-            align:  TextAlign.center,
-            style: GoogleFonts.poppins(
-              color: Colors.black,
-              fontWeight: FontWeight.w800,
-              fontSize: width / 20,
+          title: Padding(
+            padding:  EdgeInsets.only(top:8),
+            child: KText(
+              text:"Are You Want To Logout",
+              align:  TextAlign.center,
+              style: GoogleFonts.poppins(
+                color: Colors.black,
+                fontWeight: FontWeight.w800,
+                fontSize: width / 23,
+              ),
             ),
           ),
           content: SizedBox(
-            height: height / 7.56,
+            height: height / 3.8,
             child: Column(
               children: [
-                SizedBox(height: height/14.609,),
+                Container(
+                    height: height/5.2,
+                color:Colors.transparent,
+                child:Lottie.asset(LogOutLottie)),
                 Padding(
-                  padding: EdgeInsets.only(left: width / 45),
+                  padding: EdgeInsets.only(left: width / 45,top:height/86.6),
                   child: GestureDetector(
                     onTap: (){
                       FirebaseAuth.instance.signOut();
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const loginpage(),));
                     },
                     child: Container(
 
-                      height: height/17.531,
-                      width: width/4.1143,
+                      height: height/22.0,
+                      width: width/5.0,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         color: const Color(0xff0C9346),
@@ -877,7 +913,7 @@ class _firstpageState extends State<firstpage> {
                           style: GoogleFonts.poppins(
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
-                            fontSize: width / 20,
+                            fontSize: width / 24,
                           ),
                         ),
                       ),

@@ -5,6 +5,7 @@ import 'package:kpe/Marketing_Flyers_Page/Birthday.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../Translator_Module/Translator_Module_Page.dart';
+import 'Policies Advertisment_Page.dart';
 
 class marketing extends StatefulWidget {
   const marketing({super.key});
@@ -137,15 +138,19 @@ class _marketingState extends State<marketing> {
 
                                 return   GestureDetector(
                                   onTap: (){
-                                    // Navigator.push(context, PageTransition(type: PageTransitionType.theme, ctx: context,
-                                    //     alignment: Alignment.center,
-                                    //     duration: Duration(seconds: 1),
-                                    //     curve: Curves.easeIn,
-                                    //     childCurrent:Container() ,
-                                    //     child:  birthday(Marketting['name'].toString())));
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  birthday(Marketting['name'].toString()),));
 
+                                    if(Marketting['name']=="Policies Advertisment"){
 
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) =>
+                                            PoliciesAdvertisment_Page(Name:Marketting['name'].toString()),));
+                                    }
+                                    else {
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) =>
+                                            birthday(Marketting['name']
+                                                .toString()),));
+                                    }
                                   },
                                   child:
                                   Row(

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -61,15 +62,21 @@ class _birthdayState extends State<birthday> {
   }
 
 
-
+  String userName="";
+  String userEmail="";
+  String userImg="";
+  String userPhone="";
+  String companyName="";
+  String companyType="";
+  String companyIMage="";
 
   @override
   void initState() {
     getimagesizefunction();
+    getDateFromUser();
     // TODO: implement initState
     super.initState();
   }
-
 
 
   @override
@@ -144,8 +151,62 @@ class _birthdayState extends State<birthday> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+          //  FirebaseFirestore.instance.collection("WishesImage").where("type",isEqualTo:widget.Type)
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection("WishesImage").where("type",isEqualTo:widget.Type).snapshots(),
+              builder:(context, snapshot) {
 
-            Row(
+                if(snapshot.hasData==null){
+                  return  Center(
+                    child: CircularProgressIndicator(color :Color(0xff0C9346),strokeCap: StrokeCap.square,
+                      strokeWidth: 5,)
+                  );
+                }
+                if(!snapshot.hasData){
+
+                  return  Center(
+                      child: CircularProgressIndicator(color :Color(0xff0C9346),strokeCap: StrokeCap.square,
+                        strokeWidth: 5,)
+                  );
+                }
+
+                return
+                  GridView.builder(
+                    shrinkWrap: true,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 65/110
+                    ),
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      var Value=snapshot.data!.docs[index];
+
+                      return GestureDetector(
+                        onTap: () async {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                              Photo_View_Page(Value['img'].toString(),userImg,userName,userPhone,userEmail,companyName,companyType,companyIMage),));
+                        },
+                        child: Container(
+                          margin:EdgeInsets.all(5),
+                            height:height/16.539,
+                            width: width/7.762,
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius:  BorderRadius.circular(8),
+                              image:DecorationImage(
+                                fit:BoxFit.cover,
+                                image:NetworkImage(Value['img'].toString())
+                              )
+                            ),
+
+                        ),
+                      );
+
+
+                    },);
+              }, ),
+
+           /* Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
 
@@ -241,7 +302,7 @@ class _birthdayState extends State<birthday> {
                 return GestureDetector(
                   onTap: (){
 
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  Photo_View_Page(landscapeImagelist[index]),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  Photo_View_Page(landscapeImagelist[index],"Port",userImg,userName,userPhone,userEmail),));
 
                   },
                   child: Padding(
@@ -276,7 +337,7 @@ class _birthdayState extends State<birthday> {
                 return GestureDetector(
                   onTap: (){
 
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  Photo_View_Page(PortraitImagelist[index]),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  Photo_View_Page(PortraitImagelist[index],"Land",userImg,userName,userPhone,userEmail),));
 
                   },
                   child: Padding(
@@ -302,11 +363,43 @@ class _birthdayState extends State<birthday> {
                     ),
                   ),
                 );
-              },):const SizedBox(),
+              },):const SizedBox(),*/
           ],
         ),
       ),
     );
+  }
+
+  getDateFromUser() async {
+    print("user+++++++++++++++++++++++++++++++++++++++");
+    var getdata=await FirebaseFirestore.instance.collection("Users").doc(FirebaseAuth.instance.currentUser!.uid).get();
+
+    Map<String,dynamic>?value=getdata.data();
+    setState(() {
+      userName=value!['Name'];
+      userEmail=value['Email'];
+      userImg=value['Img'];
+      userPhone=value['Phone'];
+       companyName=value['companyName'];
+       companyType=value['companyType'];
+    });
+
+    var companyData=await FirebaseFirestore.instance.collection("CompanyType").where("Name",isEqualTo:companyType.toString()).get();
+
+    if(companyData.docs.length>0){
+      setState((){
+        companyIMage=companyData.docs[0]['Img'];
+      });
+    }
+
+    print(userName);
+    print(userEmail);
+    print(userImg);
+    print(userPhone);
+    print(companyName);
+    print(companyType);
+    print('Company Image File success');
+    print(companyIMage);
   }
 }
 

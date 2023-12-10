@@ -12,6 +12,7 @@ import 'package:otp_text_field/style.dart';
 
 import '../Landing Screen/Landing-Screen_Page.dart';
 import '../Translator_Module/Translator_Module_Page.dart';
+import 'SetProfile_Page.dart';
 
 class OTPScreen extends StatefulWidget {
   String phone;
@@ -40,7 +41,7 @@ class _OTPScreenState extends State<OTPScreen> {
           await FirebaseAuth.instance.signInWithCredential(credential).then((value)async{
             if(value.user!=null){
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context)=> const firstpage()));
+                  MaterialPageRoute(builder: (context)=>  SetProfile_Page(UserDocid:value.user!.uid.toString(),UserPhoneNumber: widget.phone,)));
             }
           });
         },
@@ -76,6 +77,9 @@ String PinValue='';
      "Email":"",
      "fcm_token":token,
      "userid":FirebaseAuth.instance.currentUser!.uid,
+     "Img":"",
+     "companyName":"",
+     "companyType":"",
      "timestamp":DateTime.now().millisecondsSinceEpoch,
      "date":"${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}"
    });
@@ -148,7 +152,7 @@ String PinValue='';
                         if(value.user!=null){
                           userdata();
                           Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context)=> const firstpage()));
+                              MaterialPageRoute(builder: (context)=>  SetProfile_Page(UserDocid:value.user!.uid.toString(),UserPhoneNumber: widget.phone)));
                         }
                       });
                     }
@@ -176,7 +180,7 @@ String PinValue='';
                       if(value.user!=null){
                         userdata();
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const firstpage()));
+                            builder: (context) =>  SetProfile_Page(UserDocid:value.user!.uid.toString(),UserPhoneNumber: widget.phone)));
                       }
                     });
                   }

@@ -1,8 +1,12 @@
+import 'dart:io';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import '../Translator_Module/Translator_Module_Page.dart';
 import '../const File Page.dart';
@@ -17,17 +21,34 @@ class Profile_Page extends StatefulWidget {
 class _Profile_PageState extends State<Profile_Page> {
 
   String userid= FirebaseAuth.instance.currentUser!.uid;
-
+  List<String>comPanyTypeList=["Select Company Type"];
   TextEditingController Namecon=TextEditingController();
   TextEditingController Phonecon=TextEditingController();
   TextEditingController emailcon=TextEditingController();
+  TextEditingController companyNamecon=TextEditingController();
+  TextEditingController companyTypecon=TextEditingController(text:"Select Company Type");
 
 
   @override
   void initState() {
     // TODO: implement initState
+    dropDownData();
     Userdata();
     super.initState();
+  }
+
+
+  dropDownData()async{
+    var document =await FirebaseFirestore.instance.collection("CompanyType").orderBy("Name").get();
+    print(document.docs.length);
+    for(int j=0;j<document.docs.length;j++){
+      setState((){
+        comPanyTypeList.add(document.docs[j]['Name']);
+      });
+
+    }
+
+    print(comPanyTypeList);
   }
 
   Userdata()async{
@@ -39,10 +60,19 @@ class _Profile_PageState extends State<Profile_Page> {
       Namecon.text=values!["Name"];
       emailcon.text=values["Email"];
       Phonecon.text=values["Phone"];
+      companyNamecon.text=values["companyName"];
+      values["companyType"]==""?companyTypecon.text="Select Company Type":
+      companyTypecon.text=values["companyType"];
+      Uploadimage=values["Img"];
     });
+
 
   }
 
+  File? imageFile;
+  String Uploadimage='';
+  FirebaseStorage fs = FirebaseStorage.instance;
+  bool Loading=false;
 
   @override
   Widget build(BuildContext context) {
@@ -118,250 +148,558 @@ class _Profile_PageState extends State<Profile_Page> {
         ),
       ),
       body:
-      SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+      Stack(
+        alignment: Alignment.centerLeft,
+        children: [
+          SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
 
-            FutureBuilder<dynamic>(
-              future: FirebaseFirestore.instance.collection("Users").doc(userid).get(),
-              builder:(context, snapshot) {
+                FutureBuilder<dynamic>(
+                  future: FirebaseFirestore.instance.collection("Users").doc(userid).get(),
+                  builder:(context, snapshot) {
 
-                if(snapshot.hasData ==null){
-                  return const Center(child: CircularProgressIndicator(),);
-                }
-                if(!snapshot.hasData){
-                  return const Center(child: CircularProgressIndicator(),);
-                }
-               var value=snapshot.data.data();
+                    if(snapshot.hasData ==null){
+                      return const Center(child: CircularProgressIndicator(),);
+                    }
+                    if(!snapshot.hasData){
+                      return const Center(child: CircularProgressIndicator(),);
+                    }
+                   var value=snapshot.data.data();
 
-                return
-                  Column(
-                  children: [
-                    SizedBox(
-                        height:height/4.869,
-                        width: width/1.6457,
-                        child: Lottie.asset(profile,fit: BoxFit.fill,)),
-
-                    ///name controller
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    return
+                      Column(
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Stack(
+                          alignment: Alignment.bottomCenter,
                           children: [
+                            Uploadimage==""&& imageFile==null?
                             SizedBox(
-                              width:width/1.6457,
-                              height: height/35.062,
-                              child: const FittedBox(
-                                fit: BoxFit.contain,
-                                alignment: Alignment.centerLeft,
-                                child:  KText(text: "Name",
-                                  style: TextStyle(fontFamily: "Davish",
+                                height:height/4.7,
+                                width: width/1.6457,
+                                child:
+                                Lottie.asset(profile,fit: BoxFit.fill,)):
+                           Uploadimage!=""?
+                            Container(
+                              height:height/6.0,
+                              width: width/2.9,
+                              decoration: BoxDecoration
+                                (
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(100),
+                                image: DecorationImage(
+                                  image: NetworkImage(Uploadimage),
+                                  fit: BoxFit.cover
+                                )
 
-                                ),),
+                              ),
+                            ):
+                            Container(
+                              height:height/6.0,
+                              width: width/2.9,
+                              decoration: BoxDecoration
+                                (
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(100),
+                                image: DecorationImage(
+                                  image: FileImage(imageFile!),
+                                  fit: BoxFit.cover
+                                )
+
                               ),
                             ),
-                            SizedBox(height: height/87.657,),
-                            Container(
-                              height: height / 15.3,
-                              width: width / 1.2,
-                              decoration: BoxDecoration(
-                                color: const Color(0xffffffff),
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: const Color(0xffD1CDCD),
+                            GestureDetector(
+                              onTap:(){
+                                imageFromGallery();
+                              },
+                              child: Padding(
+                               padding:EdgeInsets.only( bottom:
+                               imageFile==null?
+                               height/80.6:height/90.6, left:width/5.0,),
+                              child: Material(
+                                elevation:15,
+                                borderRadius: BorderRadius.circular(100),
+                                color:Colors.white,
+                                child: SizedBox(
+
+                                    child: Icon(Icons.edit),
+                                height: height/20.0,
+                                  width:width/10,
+
                                 ),
                               ),
-                              child: TextField(
-                                controller: Namecon,
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: width/25.402,
-                                    color: Colors.grey),
-                                decoration:
-                                InputDecoration(border: InputBorder.none,
-                                    contentPadding: EdgeInsets.only(left: width/41.143,
+
+                              ),
+                            )
+                          ],
+                        ),
+
+                        ///name controller
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width:width/1.6457,
+                                  height: height/35.062,
+                                  child: const FittedBox(
+                                    fit: BoxFit.contain,
+                                    alignment: Alignment.centerLeft,
+                                    child:  KText(text: "Name",
+                                      style: TextStyle(fontFamily: "Davish",
+
+                                    ),),
+                                  ),
+                                ),
+                                SizedBox(height: height/87.657,),
+                                Container(
+                                  height: height / 15.3,
+                                  width: width / 1.2,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffffffff),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: const Color(0xffD1CDCD),
+                                    ),
+                                  ),
+                                  child: TextField(
+                                    controller: Namecon,
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width/25.402,
+                                        color: Colors.grey),
+                                    decoration:
+                                    InputDecoration(border: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(left: width/41.143,
+                                            )
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: height/58.438,),
+
+
+                        ///Phone controller
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width:width/1.6457,
+                                  height: height/35.062,
+                                  child: const FittedBox(
+                                    alignment: Alignment.centerLeft,
+                                    fit: BoxFit.contain,
+                                    child: KText(text:"Phone",
+                                      style: TextStyle(fontFamily: "Davish",
+
+                                      ),),
+                                  ),
+                                ),
+                                SizedBox(height: height/87.657,),
+                                Container(
+                                  height: height / 15.3,
+                                  width: width / 1.2,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffffffff),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: const Color(0xffD1CDCD),
+                                    ),
+                                  ),
+                                  child: TextField(
+                                    readOnly: true,
+                                    controller: Phonecon,
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width/25.402,
+                                        color: Colors.grey),
+                                    decoration:
+                                    InputDecoration(border: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(left: width/41.143,
                                         )
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    SizedBox(height: height/58.438,),
-
-
-                    ///Phone controller
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        SizedBox(height: height/58.438,),
+                        ///email controller
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(
-                              width:width/1.6457,
-                              height: height/35.062,
-                              child: const FittedBox(
-                                alignment: Alignment.centerLeft,
-                                fit: BoxFit.contain,
-                                child: KText(text:"Phone",
-                                  style: TextStyle(fontFamily: "Davish",
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width:width/1.6457,
+                                  height: height/35.062,
+                                  child: const FittedBox(
 
-                                  ),),
-                              ),
-                            ),
-                            SizedBox(height: height/87.657,),
-                            Container(
-                              height: height / 15.3,
-                              width: width / 1.2,
-                              decoration: BoxDecoration(
-                                color: const Color(0xffffffff),
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: const Color(0xffD1CDCD),
+                                    fit: BoxFit.contain,
+                                    alignment: Alignment.centerLeft,
+
+                                    child: KText(text: "Email",
+                                      style: TextStyle(fontFamily: "Davish",
+
+                                      ),),
+                                  ),
                                 ),
-                              ),
-                              child: TextField(
-                                readOnly: true,
-                                controller: Phonecon,
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: width/25.402,
-                                    color: Colors.grey),
-                                decoration:
-                                InputDecoration(border: InputBorder.none,
-                                    contentPadding: EdgeInsets.only(left: width/41.143,
-                                    )
+                                SizedBox(height: height/87.657,),
+                                Container(
+                                  height: height / 15.3,
+                                  width: width / 1.2,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffffffff),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: const Color(0xffD1CDCD),
+                                    ),
+                                  ),
+                                  child: TextField(
+                                    controller: emailcon,
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width/25.402,
+                                        color: Colors.grey),
+                                    decoration:
+                                    InputDecoration(border: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(left: width/41.143,
+                                          )
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                    SizedBox(height: height/58.438,),
-                    ///email controller
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        SizedBox(height: height/58.438,),
+
+
+                        ///Company Name
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SizedBox(
-                              width:width/1.6457,
-                              height: height/35.062,
-                              child: const FittedBox(
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width:width/1.6457,
+                                  height: height/35.062,
+                                  child: const FittedBox(
 
-                                fit: BoxFit.contain,
-                                alignment: Alignment.centerLeft,
+                                    fit: BoxFit.contain,
+                                    alignment: Alignment.centerLeft,
 
-                                child: KText(text: "Email",
-                                  style: TextStyle(fontFamily: "Davish",
+                                    child: KText(text: "Company Name",
+                                      style: TextStyle(fontFamily: "Davish",
 
-                                  ),),
+                                      ),),
+                                  ),
+                                ),
+                                SizedBox(height: height/87.657,),
+                                Container(
+                                  height: height / 15.3,
+                                  width: width / 1.2,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffffffff),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: const Color(0xffD1CDCD),
+                                    ),
+                                  ),
+                                  child: TextField(
+                                    controller: companyNamecon,
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width/25.402,
+                                        color: Colors.grey),
+                                    decoration:
+                                    InputDecoration(border: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(left: width/41.143,
+                                        )
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: height/58.438,),
+
+                        ///COmpany Type
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width:width/1.6457,
+                                  height: height/35.062,
+                                  child: const FittedBox(
+
+                                    fit: BoxFit.contain,
+                                    alignment: Alignment.centerLeft,
+
+                                    child: KText(text: "Company Type",
+                                      style: TextStyle(fontFamily: "Davish",
+
+                                      ),),
+                                  ),
+                                ),
+                                SizedBox(height: height/87.657,),
+                                Container(
+                                  height: height / 15.3,
+                                  width: width / 1.2,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffffffff),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: const Color(0xffD1CDCD),
+                                    ),
+                                  ),
+                                  child:
+                                  DropdownButtonHideUnderline(
+                                    child:
+                                    DropdownButtonFormField2<String>(
+                                      isExpanded: true,
+                                      hint: Text(
+                                        'Select Company Type',
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: width/25.402,
+                                            color: Colors.grey),
+                                      ),
+                                      items: comPanyTypeList.
+                                      map(
+                                              (String item) =>
+                                              DropdownMenuItem<
+                                                  String>(
+                                                value: item,
+                                                child: Text(
+                                                  item,
+                                                  style:
+                                                  GoogleFonts.poppins(
+                                                      fontWeight: FontWeight.w500,
+                                                      fontSize: width/25.402,
+                                                      color: Colors.grey),
+                                                ),
+                                              )).toList(),
+                                      value: companyTypecon.text,
+
+                                      onChanged: (String? value) {
+
+                                        setState(() {
+                                          companyTypecon.text = value!;
+                                        });
+                                      },
+                                      buttonStyleData:
+                                      ButtonStyleData(
+                                        padding: EdgeInsets
+                                            .symmetric(
+                                            horizontal:
+                                            width /
+                                                22.5),
+                                        height: height / 18.9,
+                                        width: width / 2.571,
+                                      ),
+                                      menuItemStyleData:
+                                      MenuItemStyleData(
+                                        height: height / 18.9,
+                                      ),
+                                      decoration:
+                                      InputDecoration(
+                                          border:
+                                          InputBorder
+                                              .none),
+
+                                    ),
+                                  ),
+                                /*  TextField(
+                                    controller: companyTypecon,
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: width/25.402,
+                                        color: Colors.grey),
+                                    decoration:
+                                    InputDecoration(border: InputBorder.none,
+                                        contentPadding: EdgeInsets.only(left: width/41.143,
+                                        )
+                                    ),
+                                  ),*/
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: height/29.219,),
+
+
+                        ///submit button
+
+                        GestureDetector(
+                          onTap:(){
+                            setState(() {
+                              Loading=true;
+                            });
+                            userdataupdata();
+                          },
+                          child: Container(
+                            height: height / 17.97,
+                            width: width / 2.21,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(17),
+                              gradient: const LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [Color(0xff0C9346), Color(0xff008069)],
                               ),
                             ),
-                            SizedBox(height: height/87.657,),
-                            Container(
-                              height: height / 15.3,
-                              width: width / 1.2,
-                              decoration: BoxDecoration(
-                                color: const Color(0xffffffff),
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(
-                                  color: const Color(0xffD1CDCD),
-                                ),
-                              ),
-                              child: TextField(
-                                controller: emailcon,
-                                style: GoogleFonts.poppins(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: width/25.402,
-                                    color: Colors.grey),
-                                decoration:
-                                InputDecoration(border: InputBorder.none,
-                                    contentPadding: EdgeInsets.only(left: width/41.143,
+                            child:  Center(
+                              child: SizedBox(
+                                width:width/1.6457,
+                                height: height/35.062,
+                                child: const FittedBox(
+                                  alignment: Alignment.center,
+                                  fit: BoxFit.contain,
+                                  child: KText(
+                                      text: "Submit",
+                                      style:TextStyle(
+                                        fontFamily: "Davish",
+                                        fontWeight: FontWeight.w500,
+                                        color: Color(0xffffffff),
                                       )
+                                  ),
                                 ),
                               ),
                             ),
-                          ],
+                          ),
                         ),
+                        SizedBox(height: height/29.219,),
+
+
+
+
                       ],
-                    ),
-                    SizedBox(height: height/29.219,),
+                    );
+                  },)
 
+              ],
+            ),
+          ),
+          Loading==true?Padding(
+            padding: EdgeInsets.only(left: width/3.266),
+            child: Material(
 
-                    ///submit button
-
-                    GestureDetector(
-                      onTap:(){
-                        userdataupdata();
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        height: height / 17.97,
-                        width: width / 2.21,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(17),
-                          gradient: const LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Color(0xff0C9346), Color(0xff008069)],
-                          ),
-                        ),
-                        child:  Center(
-                          child: SizedBox(
-                            width:width/1.6457,
-                            height: height/35.062,
-                            child: const FittedBox(
-                              alignment: Alignment.center,
-                              fit: BoxFit.contain,
-                              child: KText(
-                                  text: "Submit",
-                                  style:TextStyle(
-                                    fontFamily: "Davish",
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xffffffff),
-                                  )
-                              ),
-                            ),
-                          ),
-                        ),
+             elevation: 50,
+              color: Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(8),
+              shadowColor: Colors.black12,
+              child: Container(
+                width: width/2.45,
+                height: height/5.0125,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(8)
+                ),
+                child: Column(
+                  children: [
+                    Lottie.asset(OverAllLoading,fit: BoxFit.fill,width: width/2.45,height: height/7.29090),
+                    KText(
+                      text: 'Please Wait',
+                      style: TextStyle(
+                          fontFamily: "Davish",
+                          color: Colors.black,
+                          fontSize: width/23.058,
+                          letterSpacing: 0.3
                       ),
                     ),
-
-
-
-
                   ],
-                );
-              },)
-
-          ],
-        ),
+                ),
+              ),
+            ),
+          ):const SizedBox()
+        ],
       ),
     );
   }
 
   ///userdata Update Fucntion
-userdataupdata(){
+  userdataupdata() async {
 
-  FirebaseFirestore.instance.collection("Users").doc(userid).update({
-    "Name":Namecon.text,
-    "Email":emailcon.text,
-    "Phone":Phonecon.text,
-  });
-  clearcontroller();
+   if(Uploadimage==""&&imageFile!=null){
+     print("Image FIle FUnction Entered dddddd");
+     print(imageFile);
+     var ref = FirebaseStorage.instance.ref().child('Images').child("$imageFile.jpg");
+     var uploadTask = await ref.putFile(imageFile!).catchError((error) async {
+
+     });
+     var image = await uploadTask.ref.getDownloadURL();
+     setState(() {
+       Uploadimage=image;
+     });
+     print("Upload Images++++++++++++++++++++++++++++++++++++++");
+     print(Uploadimage);
+     FirebaseFirestore.instance.collection("Users").doc(userid).update({
+       "Name":Namecon.text,
+       "Email":emailcon.text,
+       "Phone":Phonecon.text,
+       "companyType":companyTypecon.text,
+       "companyName":companyNamecon.text,
+       "Img":Uploadimage
+     });
+     clearcontroller();
+     Navigator.pop(context);
+   }
+
+   else if(Uploadimage!=""){
+     FirebaseFirestore.instance.collection("Users").doc(userid).update({
+       "Name":Namecon.text,
+       "Email":emailcon.text,
+       "Phone":Phonecon.text,
+       "companyType":companyTypecon.text,
+       "companyName":companyNamecon.text,
+       "Img":Uploadimage
+     });
+     clearcontroller();
+     Navigator.pop(context);
+   }
+
 }
 
-clearcontroller(){
+  clearcontroller(){
     Namecon.clear();
     emailcon.clear();
     Phonecon.clear();
+    companyNamecon.clear();
+    setState(() {
+      companyTypecon.text="Select Company Type";
+      Loading=false;
+    });
 }
 
+  imageFromGallery() async {
+
+    var  pickedFile = (await ImagePicker().pickImage(source: ImageSource.gallery));
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+        Uploadimage="";
+      });
+    }
+  }
 
 }

@@ -115,13 +115,7 @@ class _Marketing_Videos_PageState extends State<Marketing_Videos_Page> {
                       var Value=snapshot.data!.docs[index];
 
                       return
-                        GestureDetector(
-                        onTap: () async {
-
-                          await  downloadFile(Value['Url'].toString());
-                         // await launch(Value['Url']);
-                        },
-                        child: Padding(
+                        Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Material(
                             elevation: 8,
@@ -142,8 +136,8 @@ class _Marketing_Videos_PageState extends State<Marketing_Videos_Page> {
                                     child: Row(
                                       children: [
                                         Container(
-                                            height:53,
-                                            width: 53,
+                                            height:height/15.132,
+                                            width: width/7.39622641509434,
                                             decoration: BoxDecoration(
                                                 color: Colors.grey.shade300,
                                                 borderRadius:  BorderRadius.circular(8)
@@ -151,27 +145,69 @@ class _Marketing_Videos_PageState extends State<Marketing_Videos_Page> {
                                             child: Image.network(Value['img'].toString())
                                         ),
                                         SizedBox(width: width/27.428,),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            KText(text:Value['title'].toString(),
-                                              align: TextAlign.center,
-                                              style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w600,
-                                                  color: const Color(0xff000000)),),
-                                            KText(text:Value['subtitle'].toString(),
-                                              align: TextAlign.center,
-                                              style: GoogleFonts.poppins(
-                                                  color: const Color(0xff000000)),),
-                                            KText(text:Value['date'].toString(),
-                                              align: TextAlign.center,
-                                              style: GoogleFonts.poppins(
+                                        SizedBox(
+                                          width:width/1.7818,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              KText(text:Value['title'].toString(),
+                                                align: TextAlign.center,
+                                                style: GoogleFonts.poppins(
+                                                    fontWeight: FontWeight.w600,
+                                                    textStyle: TextStyle(
+                                                    overflow: TextOverflow.ellipsis
+                                                    ),
+                                                    color: const Color(0xff000000)),),
+                                              KText(text:Value['subtitle'].toString(),
+                                                align: TextAlign.center,
+                                                style: GoogleFonts.poppins(
+                                                    textStyle: TextStyle(
+                                                        overflow: TextOverflow.ellipsis
+                                                    ),
+                                                    color: const Color(0xff000000)),),
+                                              KText(text:Value['date'].toString(),
+                                                align: TextAlign.center,
+                                                style: GoogleFonts.poppins(
+                                                    textStyle: TextStyle(
+                                                        overflow: TextOverflow.ellipsis
+                                                    ),
+                                                    color: const Color(0xff000000)),),
 
-                                                  color: const Color(0xff000000)),),
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(width: width/27.428,),
+                                        InkWell(
+                                          onTap: () async {
 
-                                          ],
+                                             var data=await downloadFile(Value['Url'].toString());
+                                             print("dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                                             print(data);
+
+                                           if(data!=null){
+                                             print("1111111111111111111111111111111111111");
+                                             print(data);
+                                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Download Success Fully")));
+                                           }
+                                           else{
+                                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Download Failed")));
+                                           }
+
+                                          },
+                                          child: Container(
+                                            height: height/26.733,
+                                            width: width/13.06666666666667,
+                                           decoration: BoxDecoration(
+                                             color: Colors.grey.shade300,
+                                             borderRadius: BorderRadius.circular(5)
+                                           ),
+                                            child: Center(
+                                              child: Icon(Icons.download),
+                                            ),
+                                          ),
                                         )
+
 
                                       ],
                                     ),
@@ -181,8 +217,7 @@ class _Marketing_Videos_PageState extends State<Marketing_Videos_Page> {
                               ),
                             ),
                           ),
-                        ),
-                      );
+                        );
 
 
                     },);
@@ -196,7 +231,9 @@ class _Marketing_Videos_PageState extends State<Marketing_Videos_Page> {
   }
 
    downloadFile(String url) async {
-    Dio dio = Dio();
+
+
+   // Dio dio = Dio();
     try {
       // var dir = await getApplicationDocumentsDirectory();
       // await dio.download(url, "${dir.path}/video.mp4", onReceiveProgress: (rec, total) async {
@@ -214,16 +251,16 @@ class _Marketing_Videos_PageState extends State<Marketing_Videos_Page> {
         allowCellular: true,
         openFileFromNotification: true,
         saveInPublicStorage: true,
-        requiresStorageNotLow: true
+        requiresStorageNotLow: true,
       );
-      //await Share.shareFiles([(dir.path)]);
 
       return taskId; // Return the task ID
 
-    } catch (e) {
+    }
+    catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Download Failed")));
     }
   }
-
 
 
 }
