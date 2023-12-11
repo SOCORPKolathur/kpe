@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
         ),
         home:
         //Demo_Page(),
-       FirebaseAuth.instance.currentUser==null?const loginpage(): MyVideoPlayer(),
+       FirebaseAuth.instance.currentUser==null?const loginpage(): firstpage(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

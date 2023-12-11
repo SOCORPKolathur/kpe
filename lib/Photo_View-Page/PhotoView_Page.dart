@@ -401,8 +401,9 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                                           Padding(
                                                             padding:  EdgeInsets.only(left:width/68.5),
                                                             child: Container(
-                                                                height:height/41.2380,
-                                                              width:width/19.5714,
+                                                                height:height/34.2380,
+                                                              width:width/12.5714,
+                                                              alignment: Alignment.center,
                                                               decoration:BoxDecoration(
                                                                   color: Colors.transparent,
                                                                 image:DecorationImage(
@@ -547,7 +548,6 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
             final bytes = await controller.capture();
             setState(() {
               this.bytes = bytes;
-
             });
             print("bytes__________________________________________");
             print(bytes);

@@ -1,551 +1,4 @@
-/*
-import 'dart:async';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:gallery_saver/gallery_saver.dart';
-import 'package:http/http.dart'as http;
-import 'package:permission_handler/permission_handler.dart';
-import 'package:video_player/video_player.dart';
-import 'package:flutter/material.dart';
-import 'dart:io';
 
-import 'package:flutter/services.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:tapioca/tapioca.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-
-class Screen extends StatefulWidget {
-  const Screen({super.key});
-
-  @override
-  State<Screen> createState() => _ScreenState();
-}
-
-class _ScreenState extends State<Screen> {
-  final navigatorKey = GlobalKey<NavigatorState>();
-  late XFile _video;
-  bool isLoading = false;
-  static const EventChannel _channel =
-      const EventChannel('video_editor_progress');
-  late StreamSubscription _streamSubscription;
-  int processPercentage = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _enableEventReceiver();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _disableEventReceiver();
-  }
-
-  void _enableEventReceiver() {
-    _streamSubscription =
-        _channel.receiveBroadcastStream().listen((dynamic event) {
-      setState(() {
-        processPercentage = (event.toDouble() * 100).round();
-      });
-    }, onError: (dynamic error) {
-      print('Received error: ${error.message}');
-    }, cancelOnError: true);
-  }
-
-  void _disableEventReceiver() {
-    _streamSubscription.cancel();
-  }
-
-  String url= "https://firebasestorage.googleapis.com/v0/b/kp-enterpries.appspot.com/o/big_buck_bunny_480p_10mb.mp4?alt=media&token=4499feea-6797-4192-9baf-ad3b2f579623";
-
-  _pickVideo() async {
-    try {
-      final ImagePicker _picker = ImagePicker();
-      XFile? video = await _picker.pickVideo(source: ImageSource.gallery);
-      if (video != null) {
-        setState(() {
-          _video = video;
-          isLoading = true;
-        });
-      }
-    } catch (error) {
-      print(error);
-    }
-  }
-
-
-  _asyncMethod() async {
-    String firebaseVideoUrl="https://firebasestorage.googleapis.com/v0/b/kp-enterpries.appspot.com/o/big_buck_bunny_480p_10mb.mp4?alt=media&token=4499feea-6797-4192-9baf-ad3b2f579623";
-    var tempDir = await getTemporaryDirectory();
-    final path = '${tempDir.absolute.path}/${DateTime.now().millisecondsSinceEpoch}result.mp4';
-    final imageBitmap = (await rootBundle.load("assets/76.png")).buffer.asUint8List();
-
-    print(tempDir);
-    print(imageBitmap);
-    print(path);
-    print("++++++++++++++++++++++++++++++++++++++++++oooooooooooooooooooooooooooooooooooo+");
-
-    try {
-      final firebaseStorage = FirebaseStorage.instance;
-      assert(firebaseStorage.refFromURL(firebaseVideoUrl) != null, 'Invalid Firebase Storage URL');
-      final ref = firebaseStorage.refFromURL(firebaseVideoUrl);
-      File? videoFile = File(path);
-      print("File Type into Firebase Storage======================++++++++++++++++++++");
-      print(videoFile.runtimeType);
-      //await ref.writeToFile(videoFile);
-      final success= await ref.writeToFile(videoFile);
-      print("File write into File successfully)))))))))))))))))))))))))))))))))))((((");
-      final tapiocaBalls = [
-        TapiocaBall.imageOverlay(imageBitmap, 600, 600),
-      ];
-      print("Staus Code in firebase++++++++++++++++++++++++++++++++++++");
-      print(success.state);
-      if (success != null) {
-        print("Sucesssssssss ============================Write File+++++++++++++++++++++++++++");
-
-        print(videoFile.path);
-        final cup = Cup(Content(videoFile.path), tapiocaBalls);
-        print(tapiocaBalls.length);
-        print("Number of Tapioca Balls: ${cup.tapiocaBalls.length}");
-        print("Resulting Video Path: $path");
-        print(cup.content.name.toString());
-        cup.suckUp(path);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => VideoScreen(path)),
-          );
-
-      }
-
-*/
-/*      print("File Convert Successfully+++++++++++++++++++++++++++++++++++++++++++");
-       print(videoFile.path.toString());
-       print("Video File Path++++++++++++++++++++++++++++++++++++++++++++");
-
-
-      print("Tapioca Balls: $tapiocaBalls");
-      print("Will start processing ----------------------------------------");
-      final cup = Cup(Content(videoFile.path), tapiocaBalls);
-      print(tapiocaBalls.length);
-      print("Number of Tapioca Balls: ${cup.tapiocaBalls.length}");
-      print("Resulting Video Path: $path");
-      print(cup.content.name.toString());
-      print("Video Processing Start+++++++++++++++++++++++++++++++++++++++++++++++++++");
-      cup.suckUp(path).then((value) {
-        print("${value}6666666666666666666666666666666666666666666666666666666");
-        print("Processing finished");
-        setState(() {
-          processPercentage = 0;
-        });
-        print("Saving video to gallery...");
-        GallerySaver.saveVideo(path).then((bool? success) {
-          print("Video saved to gallery: $success");
-        });
-        final currentState = navigatorKey.currentState;
-        if (currentState != null) {
-          currentState.push(
-            MaterialPageRoute(
-              builder: (context) => VideoScreen(path),
-            ),
-          );
-        }
-        setState(() {
-          isLoading = false;
-        });
-      }).
-      catchError((error) {
-        print('Error during video processing: $error');
-        print("Processing error: $error");
-        setState(() {
-          isLoading = false;
-        });
-      });*//*
-
-    }
-    on PlatformException
-    catch (platformException) {
-      print(
-          "PlatForm_____________________________________________");
-      print("Platform Exception: ${platformException.message}");
-      print("Platform Exception: ${platformException.code}");
-      print(
-          "Error during video processing: $platformException");
-      setState(() {
-        isLoading = false;
-      });
-    } catch (error, stackTrace) {
-      print('Unexpected Error: $error');
-      print("rrrrrrrrrrrrrrrrrrrrrrr$stackTrace");
-      setState(() {
-        isLoading = false;
-      });
-    }
-
-
-  }
-
-
-  Future<XFile?> downloadVideoAndConvertToFile(String videoUrl) async {
-    try {
-      // Fetch the video bytes
-      final http.Response response = await http.get(Uri.parse(videoUrl));
-      final Uint8List videoBytes = response.bodyBytes;
-
-      // Create a temporary file to save the video
-      final File tempFile = File('${DateTime.now().millisecondsSinceEpoch}.mp4');
-      await tempFile.writeAsBytes(videoBytes);
-
-      // Convert the file path to XFile
-      final XFile xFile = XFile(tempFile.path);
-
-      return xFile;
-    } catch (e) {
-      print('Error downloading and converting video: $e');
-      return null;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Plugin example app'),
-        ),
-        body: Center(
-          child: isLoading
-              ? Column(mainAxisSize: MainAxisSize.min, children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 10),
-                  Text(
-                    processPercentage.toString() + "%",
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ])
-              : ElevatedButton(
-                  child: Text("Pick a video and Edit it"),
-                   onPressed: () async {
-                     _asyncMethod();
-                  },
-
-                 */
-/* onPressed: () async {
-                    print("clicked!");
-
-                    await _pickVideo();
-                    //XFile? xFile = await downloadVideoAndConvertToFile(videoUrl);
-
-                   //  String firebaseVideoUrl =
-                   //      "https://firebasestorage.googleapis.com/v0/b/kp-enterpries.appspot.com/o/big_buck_bunny_480p_10mb.mp4?alt=media&token=4499feea-6797-4192-9baf-ad3b2f579623";
-                     var tempDir = await getTemporaryDirectory();
-                     final path = '${tempDir.absolute.path}/${DateTime.now().millisecondsSinceEpoch}result.mp4';
-                     final imageBitmap = (await rootBundle.load("assets/76.png")).buffer.asUint8List();
-                   //
-                     print(tempDir);
-                     print(imageBitmap);
-                     print(path);
-                     print(
-                        "++++++++++++++++++++++++++++++++++++++++++oooooooooooooooooooooooooooooooooooo+");
-
-                    try {
-
-                     // final firebaseStorage = FirebaseStorage.instance;
-                     //
-                     // assert(firebaseStorage.refFromURL(firebaseVideoUrl) != null, 'Invalid Firebase Storage URL');
-                     //
-                     // final ref = firebaseStorage.refFromURL(firebaseVideoUrl);
-                     // final videoFile = File(path);
-
-                   //  print("File Type into Firebase Storage======================");
-                     // print(videoFile.runtimeType);
-                     //  if(await videoFile.existsSync()){
-                     //    print(videoFile.absolute.path);
-                     //    print(videoFile.path);
-                     //    print(videoFile.uri.path);
-                     //    print("Path is Craeteeeeeeeeeeeeeeeeeeeeeeeeeddddd");
-                     //  }
-                     //  else{
-                     //    print("Path is Invaliddddddddddddddddddddddd");
-                     //    print(videoFile.absolute.path);
-                     //    print(videoFile.path);
-                     //    print(videoFile.uri.path);
-                     //    print('/////////////////////////////////////////');
-                     //  }
-                   //   await ref.writeToFile(videoFile);
-
-                    //  print(videoFile.path.toString());
-                      final tapiocaBalls = [
-                        TapiocaBall.imageOverlay(imageBitmap, 600, 600),
-                      ];
-
-                      print("Tapioca Balls: $tapiocaBalls");
-                      print("Will start processing ----------------------------------------");
-
-
-                      final cup = Cup(Content(_video.path), tapiocaBalls);
-                      print(tapiocaBalls.length);
-                      print(
-                          "Number of Tapioca Balls: ${cup.tapiocaBalls.length}");
-                      print("Resulting Video Path: $path");
-
-                      print(cup.content.name.toString());
-
-                      cup.suckUp(path).then((value) {
-                        print(
-                            "${value}6666666666666666666666666666666666666666666666666666666");
-                        print("Processing finished");
-                        setState(() {
-                          processPercentage = 0;
-                        });
-                        print("Saving video to gallery...");
-                        // GallerySaver.saveVideo(path).then((bool? success) {
-                        //   print("Video saved to gallery: $success");
-                        // });
-
-                        final currentState = navigatorKey.currentState;
-                        if (currentState != null) {
-                          currentState.push(
-                            MaterialPageRoute(
-                              builder: (context) => VideoScreen(path),
-                            ),
-                          );
-                        }
-
-                        setState(() {
-                          isLoading = false;
-                        });
-                      }).
-                      catchError((error) {
-                        print('Error during video processing: $error');
-                        print("Processing error: $error");
-                        setState(() {
-                          isLoading = false;
-                        });
-                      });
-                    }
-                    on PlatformException
-                    catch (platformException) {
-                      print(
-                          "PlatForm_____________________________________________");
-                      print("Platform Exception: ${platformException.message}");
-                      print("Platform Exception: ${platformException.code}");
-                      print(
-                          "Error during video processing: $platformException");
-                      setState(() {
-                        isLoading = false;
-                      });
-                    } catch (error, stackTrace) {
-                      print('Unexpected Error: $error');
-                      print("rrrrrrrrrrrrrrrrrrrrrrr$stackTrace");
-                      setState(() {
-                        isLoading = false;
-                      });
-                    }
-                  },*//*
-
-                ),
-        ),
-      ),
-    );
-  }
-
-  Vieoofunc() async {
-    await _pickVideo();
-    print("clicked!");
-    String firebaseVideoUrl =
-        "https://firebasestorage.googleapis.com/v0/b/kp-enterpries.appspot.com/o/big_buck_bunny_480p_10mb.mp4?alt=media&token=4499feea-6797-4192-9baf-ad3b2f579623";
-    var tempDir = await getTemporaryDirectory();
-    final path =
-        '${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}result.mp4';
-    final imageBitmap =
-        (await rootBundle.load("assets/76.png")).buffer.asUint8List();
-
-    try {
-      print("11111111111111111111111111111111111111");
-      final firebaseStorage = FirebaseStorage.instance;
-      print("2222222222222222222222222222222222222222");
-      final ref = firebaseStorage.refFromURL(firebaseVideoUrl);
-      print("33333333333333333333333333333333");
-      final videoFile = File(path);
-      print("444444444444444444444444444");
-      print(videoFile);
-      print("}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}");
-
-      await ref.writeToFile(videoFile);
-      print("55555555555555555555555555");
-      final tapiocaBalls = [
-        TapiocaBall.imageOverlay(imageBitmap, 600, 600),
-      ];
-      print("666666666666666666666666666666666666666666");
-
-      print("Firebase Video URL: $firebaseVideoUrl");
-      print("Tapioca Balls: $tapiocaBalls");
-      print("Video File: $videoFile");
-      print("Will start processing ----------------------------------------");
-      print("Video File Path: ${videoFile.path}");
-      print("777777777777777777777777777777777777777777777777");
-      final cup = Cup(Content(_video.path), tapiocaBalls);
-      print("888888888888888888888888888888888888888888888888");
-      print(tapiocaBalls.length);
-      print("Number of Tapioca Balls: ${cup.tapiocaBalls.length}");
-      print("Resulting Video Path: $path");
-      print("9999999999999999999999999999999999999999");
-      await cup.suckUp(path);
-      print("1000000000000000100000000000000000000000000");
-      print("Processing finished");
-      setState(() {
-        processPercentage = 0;
-      });
-
-      print("Saving video to gallery...");
-      GallerySaver.saveVideo(path).then((bool? success) {
-        print("Video saved to gallery: $success");
-      });
-
-      final currentState = navigatorKey.currentState;
-      if (currentState != null) {
-        currentState.push(
-          MaterialPageRoute(
-            builder: (context) => VideoScreen(path),
-          ),
-        );
-      }
-
-      setState(() {
-        isLoading = false;
-      });
-    } on PlatformException catch (platformException) {
-      print("Platform Exception: ${platformException.message}");
-      setState(() {
-        isLoading = false;
-      });
-    } catch (error, stackTrace) {
-      print('Unexpected Error: $error');
-      print('Stack Trace: $stackTrace');
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  Future<void> processVideo() async {
-    try {
-      String firebaseVideoUrl =
-          "https://firebasestorage.googleapis.com/v0/b/kp-enterpries.appspot.com/o/big_buck_bunny_480p_10mb.mp4?alt=media&token=4499feea-6797-4192-9baf-ad3b2f579623";
-
-      // Get the temporary directory for storing the downloaded video
-      var tempDir = await getTemporaryDirectory();
-      final path =
-          '${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}result.mp4';
-      final imageBitmap =
-          (await rootBundle.load("assets/76.png")).buffer.asUint8List();
-
-      // Download video from Firebase Storage
-      await downloadVideo(firebaseVideoUrl, path);
-
-      // List of TapiocaBalls for modifications
-      final tapiocaBalls = [
-        TapiocaBall.imageOverlay(imageBitmap, 600, 600),
-      ];
-
-      // Create a Cup with original content and modifications
-      final cup = Cup(Content(path), tapiocaBalls);
-      await cup.suckUp(path);
-      // Further use of the cup, e.g., cup.suckUp(outputPath);
-
-      print("Video processing completed.");
-    } catch (e) {
-      print("Error processing video: $e");
-    }
-  }
-
-  Future<void> downloadVideo(String firebaseUrl, String localPath) async {
-    try {
-      final firebaseStorage = FirebaseStorage.instance;
-      final ref = firebaseStorage.refFromURL(firebaseUrl);
-      final videoFile = File(localPath);
-
-      // Download the video from Firebase Storage
-      await ref.writeToFile(videoFile);
-
-      print("Video downloaded to $localPath");
-    } catch (e) {
-      print("Error downloading video: $e");
-      throw e; // Rethrow the exception to indicate the failure
-    }
-  }
-}
-
-class VideoScreen extends StatefulWidget {
-  final String path;
-
-  VideoScreen(this.path);
-
-  @override
-  _VideoAppState createState() => _VideoAppState(path);
-}
-
-class _VideoAppState extends State<VideoScreen> {
-  final String path;
-
-  _VideoAppState(this.path);
-
-  late VideoPlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.file(File(path))
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: _controller.value.isInitialized
-            ? AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
-              )
-            : Container(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            if (!_controller.value.isPlaying &&
-                _controller.value.isInitialized &&
-                (_controller.value.duration == _controller.value.position)) {
-              _controller.initialize();
-              _controller.play();
-            } else {
-              _controller.value.isPlaying
-                  ? _controller.pause()
-                  : _controller.play();
-            }
-          });
-        },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
-}
-*/
 
 
 
@@ -559,11 +12,40 @@ import 'package:image/image.dart' as img;
 import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:widgets_to_image/widgets_to_image.dart';
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import '../Translator_Module/Translator_Module_Page.dart';
+import 'package:http/http.dart'as http;
+import 'package:widgets_to_image/widgets_to_image.dart';
+
+import '../const File Page.dart';
+import 'Photo_View-Page/PhotoView_Page.dart';
 
 
 
 
 class MyVideoPlayer extends StatefulWidget {
+
+  String ?videourl;
+  String ?userImg;
+  String ?userName;
+  String ?userPhone;
+  String ?userEmail;
+  String ?companyName;
+  String ?companyType;
+  String ?companyIMage;
+  MyVideoPlayer(this.videourl,this.userImg,this.userName,this.userPhone,this.userEmail,this.companyName,this.companyType,this.companyIMage);
+
   @override
   _MyVideoPlayerState createState() => _MyVideoPlayerState();
 }
@@ -571,13 +53,64 @@ class MyVideoPlayer extends StatefulWidget {
 class _MyVideoPlayerState extends State<MyVideoPlayer> {
   late VideoPlayerController _controller;
 
+  bool shareisclisked=false;
+  bool dropdownClicked=false;
+  List<String>comPanyTypeList=["Select Company Type"];
+
+  String DropdownImage="";
+  TextEditingController companyTypecon=TextEditingController(text:"Select Company Type");
+  // WidgetsToImageController to access widget
+  WidgetsToImageController controller = WidgetsToImageController();
+// to save image bytes of widget
+  Uint8List? bytes;
+  Color pickerColor = Color(0xff000000);
+
+  Color currentColor = Color(0xff000000);
+
+
+  int redColor=0;
+  int blueColor=0;
+  int greenColor=0;
+
+
+
+  RPSCustomPainter painter = RPSCustomPainter(fillColor: Colors.black);
+
+// ValueChanged<Color> callback
+  void changeColor(Color color) {
+    setState((){
+      pickerColor = color;
+      painter = RPSCustomPainter(fillColor: pickerColor);
+      redColor=color.red;
+      blueColor=color.blue;
+      greenColor=color.green;
+    });
+    print("Hassss");
+    print(redColor);
+    print(blueColor);
+    print(greenColor);
+  }
+
   @override
   void initState() {
     super.initState();
     // Replace 'YOUR_NETWORK_VIDEO_URL' with the actual URL of the network video
-    String networkVideoUrl = "https://firebasestorage.googleapis.com/v0/b/kp-enterpries.appspot.com/o/big_buck_bunny_480p_10mb.mp4?alt=media&token=4499feea-6797-4192-9baf-ad3b2f579623";
+    String networkVideoUrl = "https://firebasestorage.googleapis.com/v0/b/kp-enterpries.appspot.com/o/Marketing_video%2FWhatsApp%20Video%202023-12-07%20at%2012.05.47%20PM.mp4?alt=media&token=d5759e00-3da7-4fbc-ab6c-f87adb4e1395";
     _initializeVideoPlayer(networkVideoUrl);
     createpath();
+    if(widget.companyType!=""){
+      setState(() {
+        DropdownImage="";
+        dropdownClicked=true;
+        companyTypecon.text=widget.companyType.toString();
+      });
+    }
+    else{
+      setState(() {
+        companyTypecon.text="Select Company Type";
+      });
+    }
+    //dropDownData();
   }
   void _initializeVideoPlayer(String networkVideoUrl) {
     _controller = VideoPlayerController.network(networkVideoUrl)
@@ -591,22 +124,317 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
+
+
       appBar: AppBar(
         title: InkWell(
             onTap: (){
+              print(height);
 
             },
             child: const Text('Video Player')),
       ),
       body: Center(
         child: isloading==false?_controller.value.isInitialized
-            ? AspectRatio(
+            ? Stack(
+              children: [
+                Container(
+
+                  child: AspectRatio(
           aspectRatio: _controller.value.aspectRatio,
           child: VideoPlayer(_controller),
-        )
+        ),
+                ),
+                WidgetsToImage(
+                    controller: controller,
+                    child:
+                    GestureDetector
+                      (
+                        onTap:(){
+                          print(height);
+                          print(width);
+                        },
+                        child:
+                        Container(
+                          height:height/2.22,
+                          width: width/1.01,
+                          decoration: BoxDecoration(
+
+                            // image: DecorationImage(
+                            //   fit: BoxFit.contain,
+                            //   image: NetworkImage(widget.img.toString(),),
+                            // )
+                          ),
+                          child:
+                          Align(
+                              alignment: Alignment.bottomLeft,
+                              child:
+                              Stack(
+                                alignment: Alignment.bottomLeft,
+                                children: [
+
+
+                                  Padding(
+                                      padding:EdgeInsets.only(bottom:height/14.1967,right:width/4.11,left:width/6.044117647058824),
+                                      child:
+                                      SizedBox(
+                                          child:Stack(
+                                              alignment: Alignment.bottomCenter,
+                                              children:[
+                                                CustomPaint(
+
+                                                  size: Size(width,(width*0.333333333333334).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                                                  painter: painter,
+                                                ),
+                                                Align(
+                                                    alignment: Alignment.bottomLeft,
+                                                    child:Padding(
+                                                        padding:EdgeInsets.only(left:width/50.2),
+                                                        child:
+                                                        FittedBox(
+                                                          child:Row(
+                                                              children:[
+
+                                                                Icon(Icons.circle,color:Colors.white,size:width/38.1),
+                                                                Padding(
+                                                                    padding:EdgeInsets.only(left:width/50.2),
+                                                                    child: Text(widget.companyName.toString(),style: TextStyle(
+                                                                      color: Colors.white,
+                                                                      letterSpacing: 0.3,
+                                                                      fontWeight:FontWeight.w500,
+                                                                      fontSize:width/27.0126,
+
+                                                                    ),)
+                                                                )
+                                                              ]
+                                                          ),
+                                                        )
+                                                    )),
+                                              ]
+                                          )
+                                      )
+                                  ),
+
+                                  Container(
+                                      height:height/2.9862,
+                                      margin:EdgeInsets.only(bottom:height/50.55),
+                                      child:CustomPaint(
+                                        size: Size(width,(width*0.833333333333334).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                                        painter: RPSCustomPainter2(
+                                        ),
+                                      )
+                                  ),
+
+
+                                  Padding(
+                                    padding:EdgeInsets.only(bottom:height/33.7521,left:width/45.66666666666667),
+                                    child:
+                                    Row(
+                                        children:[
+                                          GestureDetector(
+                                            onTap: (){
+                                              print(height);
+                                              print(width);
+                                            },
+                                            child: Container(
+                                              height:height/14.6779,
+                                              width: width/6.96610,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.grey.shade300,
+                                                  border: Border.all(color: pickerColor),
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  image: widget.userImg==""?
+                                                  DecorationImage(image: AssetImage(AvatorImg)):
+                                                  DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image: NetworkImage(widget.userImg.toString())
+                                                  )
+                                              ),
+                                            ),
+                                          ),
+                                        ]
+                                    ),
+                                  ),
+
+                                  Padding(
+                                    padding:  EdgeInsets.only(left:width/5.7,bottom:height/22.0),
+                                    child:
+                                    Row(
+                                      children: [
+
+                                        Container(
+                                            height: height/42.57894736842105,
+                                            width: width/3.0,
+                                            color:Colors.white,
+
+                                            child:Align(
+                                                alignment: Alignment.centerLeft,
+                                                child:
+                                                FittedBox(
+                                                    child:Row(
+                                                        children:[
+                                                          Icon(Icons.person,color:pickerColor,size:width/22.1),
+
+                                                          Padding(
+                                                            padding:EdgeInsets.only(left:width/82.2),
+                                                            child:Text("${widget.userName.toString()}", style: TextStyle(
+                                                                color: pickerColor,
+                                                                letterSpacing: 0.3,
+                                                                overflow: TextOverflow.ellipsis
+                                                            ),),
+                                                          )
+                                                        ]
+                                                    )
+                                                ))
+                                        ),
+
+                                        Container(
+                                            height: height/42.57894736842105,
+                                            width: width/2.78,
+                                            color:Colors.white,
+                                            child:
+                                            Align(
+                                                alignment: Alignment.centerLeft,
+                                                child:
+                                                FittedBox(
+                                                    child:Row(
+                                                        children:[
+                                                          Icon(Icons.mail,color:pickerColor,size:width/22.1),
+                                                          Padding(
+                                                            padding:EdgeInsets.only(left:width/82.2),
+                                                            child:Text("${widget.userEmail.toString()}", style: TextStyle(
+
+                                                                color: pickerColor,
+                                                                letterSpacing: 0.3,
+                                                                overflow: TextOverflow.ellipsis
+                                                            ),),
+                                                          )
+                                                        ]
+                                                    )
+                                                ))
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  Padding(
+                                      padding:  EdgeInsets.only(left:width/5.7,bottom:height/46.8),
+                                      child:
+                                      Row(
+                                          children:[
+                                            Container(
+                                                height: height/42.57894736842105,
+                                                width: width/3.1,
+                                                color:Colors.white,
+                                                child:
+                                                Align(
+                                                  alignment: Alignment.centerLeft,
+                                                  child:FittedBox(
+                                                      child:Row(
+                                                          children:[
+                                                            Icon(Icons.phone,color:pickerColor,size:width/22.1),
+                                                            Padding(
+                                                                padding:  EdgeInsets.only(left:width/1000.44),
+                                                                child:Text(" ${widget.userPhone.toString()}",style: TextStyle(
+
+                                                                    color: pickerColor,
+                                                                    letterSpacing: 0.3,
+                                                                    overflow: TextOverflow.ellipsis
+                                                                ),)
+                                                            )
+                                                          ]
+                                                      )
+                                                  ),
+                                                )
+                                            ),
+
+                                            Container(
+                                                color:Colors.white,
+                                                height: height/42.57894736842105,
+                                                width: width/2.68,
+                                                child:
+                                                Align(
+                                                    alignment: Alignment.centerLeft,
+                                                    child:
+                                                    FittedBox(
+                                                        child:
+                                                        Row(
+                                                            children:[
+                                                              Padding(
+                                                                padding:  EdgeInsets.only(left:width/68.5),
+                                                                child: Container(
+                                                                    height:height/41.2380,
+                                                                    width:width/19.5714,
+                                                                    decoration:BoxDecoration(
+                                                                        color: Colors.transparent,
+                                                                        image:DecorationImage(
+                                                                            fit:BoxFit.contain,
+                                                                            image:NetworkImage(
+                                                                                DropdownImage==""?
+                                                                                widget.companyIMage.toString():DropdownImage.toString())
+                                                                        )
+                                                                    )
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                  color:Colors.white,
+                                                                  //    margin: EdgeInsets.only(left:width/25.44),
+                                                                  height: height/42.57894736842105,
+                                                                  width: width/2.68,
+                                                                  child:Padding(
+                                                                      padding:  EdgeInsets.only(left:width/1000.44),
+                                                                      child:Text(" ${ companyTypecon.text.toString()}",style: TextStyle(
+
+                                                                          color: pickerColor,
+                                                                          letterSpacing: 0.3,
+                                                                          overflow: TextOverflow.ellipsis
+                                                                      ),)
+                                                                  )
+
+                                                              )
+                                                            ]
+                                                        )
+                                                    ))
+                                            ),
+                                          ]
+                                      )
+                                  ),
+
+                                  Container(
+                                      height: height/45.111,
+
+                                      color:
+                                      pickerColor,
+                                      width: double.infinity,
+                                      padding: EdgeInsets.only(left: width/78.4,right:width/78.4,
+                                      ),
+                                      child:Align
+                                        (   alignment: Alignment.centerLeft,
+                                          child:FittedBox(
+                                            child:Text(shareImgQuote.toString(),style: TextStyle(
+                                                color: Colors.white,
+                                                letterSpacing: 0.3,
+                                                fontWeight:FontWeight.w500,
+                                                overflow: TextOverflow.ellipsis
+                                            ),),
+                                          ))
+                                  ),
+
+
+
+
+                                ],
+                              )),
+                        ))
+                ),
+              ],
+            )
             : const CircularProgressIndicator()
             : const CircularProgressIndicator(),
       ),
@@ -707,17 +535,24 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
     setState(() {
       isloading = true;
     });
+    final bytes = await controller.capture();
+    setState(() {
+      this.bytes = bytes;
+    });
+    print("bytes__________________________________________");
+    print(bytes);
     try {
       // Download the overlay image
       final http.Response response = await http.get(Uri.parse(networkImageUrl));
       final Uint8List imageBytes = response.bodyBytes;
 
       // Decode the image using the image package
-      final img.Image? image = img.decodeImage(imageBytes);
+      final img.Image? image = img.decodeImage(bytes!);
 
       // Resize the image to the specified width and height
       final img.Image resizedImage =
-      img.copyResize(image!, width: 50, height: 50);
+      img.copyResize(image!,  height: 363,
+        width: _controller.value.size.width.round(),);
 
       // Convert the resized image to bytes
       final Uint8List resizedImageBytes = Uint8List.fromList(img.encodePng(resizedImage));

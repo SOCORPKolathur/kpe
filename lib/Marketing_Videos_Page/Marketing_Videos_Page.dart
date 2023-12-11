@@ -5,11 +5,13 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kpe/Marketing_Videos_Page/Fullview.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,6 +30,54 @@ class Marketing_Videos_Page extends StatefulWidget {
 }
 
 class _Marketing_Videos_PageState extends State<Marketing_Videos_Page> {
+
+
+  String userName="";
+  String userEmail="";
+  String userImg="";
+  String userPhone="";
+  String companyName="";
+  String companyType="";
+  String companyIMage="";
+  getDateFromUser() async {
+    print("user+++++++++++++++++++++++++++++++++++++++");
+    var getdata=await FirebaseFirestore.instance.collection("Users").doc(FirebaseAuth.instance.currentUser!.uid).get();
+
+    Map<String,dynamic>?value=getdata.data();
+    setState(() {
+      userName=value!['Name'];
+      userEmail=value['Email'];
+      userImg=value['Img'];
+      userPhone=value['Phone'];
+      companyName=value['companyName'];
+      companyType=value['companyType'];
+    });
+
+    var companyData=await FirebaseFirestore.instance.collection("CompanyType").where("Name",isEqualTo:companyType.toString()).get();
+
+    if(companyData.docs.length>0){
+      setState((){
+        companyIMage=companyData.docs[0]['Img'];
+      });
+    }
+
+    print(userName);
+    print(userEmail);
+    print(userImg);
+    print(userPhone);
+    print(companyName);
+    print(companyType);
+    print('Company Image File success');
+    print(companyIMage);
+  }
+
+  @override
+  void initState() {
+    getDateFromUser();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -181,7 +231,7 @@ class _Marketing_Videos_PageState extends State<Marketing_Videos_Page> {
                                         InkWell(
                                           onTap: () async {
 
-                                             var data=await downloadFile(Value['Url'].toString());
+                                           /*  var data=await downloadFile(Value['Url'].toString());
                                              print("dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                                              print(data);
 
@@ -192,7 +242,11 @@ class _Marketing_Videos_PageState extends State<Marketing_Videos_Page> {
                                            }
                                            else{
                                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Download Failed")));
-                                           }
+                                           }*/
+
+                                            Navigator.push(context, MaterialPageRoute(builder: (context) =>
+                                                VideoPlayerFullview(Value['Url'].toString(),userImg,userName,userPhone,userEmail,companyName,companyType,companyIMage),));
+
 
                                           },
                                           child: Container(
@@ -203,7 +257,7 @@ class _Marketing_Videos_PageState extends State<Marketing_Videos_Page> {
                                              borderRadius: BorderRadius.circular(5)
                                            ),
                                             child: Center(
-                                              child: Icon(Icons.download),
+                                              child: Icon(Icons.arrow_forward_ios),
                                             ),
                                           ),
                                         )
