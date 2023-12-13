@@ -8,6 +8,7 @@
    <application
         android:label="KALPANA ENTERPRISES"
         android:name="${applicationName}"
+        android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/launcher_icon">
         <activity
@@ -47,7 +48,5 @@
                android:name="android.support.FILE_PROVIDER_PATHS"
                android:resource="@xml/provider_paths"/>
        </provider>
-
-
     </application>
 </manifest>

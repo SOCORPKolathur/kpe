@@ -231,7 +231,6 @@ class _MyVideoPlayerState extends State<MyVideoPlayer> {
                                       )
                                   ),
 
-
                                   Padding(
                                     padding:EdgeInsets.only(bottom:height/33.7521,left:width/45.66666666666667),
                                     child:

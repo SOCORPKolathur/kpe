@@ -173,13 +173,6 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                       WidgetsToImage(
                         controller: controller,
                         child:
-                        GestureDetector
-                        (
-                          onTap:(){
-                            print(height);
-                            print(width);
-                          },
-                        child:
                         Container(
                           height:height/1.59,
                           width: width/1.03885,
@@ -200,12 +193,12 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                               Padding(
                                 padding:  EdgeInsets.only(bottom: height/10.7),
                                 child: Container(
-                                    height:height/1.84255,
+                                    height:height/2.0,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                      color:Colors.white,
+                                      color:Colors.yellow,
                                       image: DecorationImage(
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.fill,
                                         image: NetworkImage(widget.img.toString(),),
                                       )
                                     ),
@@ -464,7 +457,7 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
 
                             ],
                           )),
-                        ))
+                        )
                       ),
                     ],
                   ),

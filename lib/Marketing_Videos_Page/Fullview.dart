@@ -2,7 +2,11 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:video_player/video_player.dart';
 import 'package:dio/dio.dart';
 import 'package:image/image.dart' as img;
@@ -27,7 +31,7 @@ import 'package:http/http.dart'as http;
 import 'package:widgets_to_image/widgets_to_image.dart';
 
 import '../const File Page.dart';
-
+import 'dart:async';
 
 
 
@@ -48,7 +52,12 @@ class VideoPlayerFullview extends StatefulWidget {
 }
 
 class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
+
   late VideoPlayerController _controller;
+
+  static const EventChannel _channel = EventChannel('video_editor_progress');
+  late StreamSubscription _streamSubscription;
+  double processPercentage = 0;
 
   bool shareisclisked=false;
   bool dropdownClicked=false;
@@ -87,6 +96,8 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
     print(blueColor);
     print(greenColor);
   }
+  EventListener _eventListener = EventListener();
+
 
   @override
   void initState() {
@@ -107,8 +118,21 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
         companyTypecon.text="Select Company Type";
       });
     }
+    _eventListener.onEvent.listen((event) {
+      setState(() {
+        processPercentage = event;
+      });
+    });
     //dropDownData();
   }
+
+  void _simulateSendingEvents() async {
+    for (int i = 0; i <= 100; i += 10) {
+      await Future.delayed(Duration(seconds: 1));
+      _eventListener.sendEvent(i.toDouble());
+    }
+  }
+
   void _initializeVideoPlayer(String networkVideoUrl) {
     _controller = VideoPlayerController.network(networkVideoUrl)
       ..initialize().then((_) {
@@ -121,6 +145,7 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
       }
     });
   }
+
   colorPickerPopup(){
     return showDialog(
       context: context,
@@ -147,6 +172,35 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
 
     );
   }
+
+  void _enableEventReceiver() {
+
+    _streamSubscription = _channel.receiveBroadcastStream().listen((dynamic event) {
+          setState(() {
+            processPercentage = (event.toDouble() * 100).round();
+          });
+        }, onError: (dynamic error) {
+          print('Received error: ${error.message}');
+        }, cancelOnError: true);
+  }
+
+
+
+  void Receiver() {
+    // Simulate an event every second to increase the percentage value
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        processPercentage += 10.0;
+        if (processPercentage < 100.0) {
+          _enableEventReceiver(); // Continue simulating events
+        }
+      });
+    });
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -231,100 +285,99 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
 
         ),
       ),
+
       body: Center(
         child: isloading==false?_controller.value.isInitialized
-            ? Stack(
-          children: [
-            Container(
-
-              child: AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
+            ? Container(
+                height:height/2.8,
+                width: width/1,
+              color: Colors.white,
+              child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+              Container(
+                height:height/2.8,
+                width: width/1,
+                color: Colors.white,
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: VideoPlayer(_controller),
+                ),
               ),
-            ),
-            WidgetsToImage(
-                controller: controller,
-                child:
-                GestureDetector
-                  (
-                    onTap:(){
-                      print(height);
-                      print(width);
-                    },
-                    child:
-                    Container(
-                      height:height/2.22,
-                      width: width/1.01,
-                      decoration: BoxDecoration(
 
-                        // image: DecorationImage(
-                        //   fit: BoxFit.contain,
-                        //   image: NetworkImage(widget.img.toString(),),
-                        // )
-                      ),
-                      child:
-                      Align(
-                          alignment: Alignment.bottomLeft,
-                          child:
-                          Stack(
-                            alignment: Alignment.bottomLeft,
+              Container(
+                width: double.infinity,
+                color: Colors.transparent,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    WidgetsToImage(
+                      controller: controller,
+                      child: GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            _controller.play();
+                          });
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          width:width/1,
+                          child: Stack(
+                            alignment: Alignment.center,
                             children: [
-
-
                               Padding(
-                                  padding:EdgeInsets.only(bottom:height/14.1967,right:width/4.11,left:width/6.044117647058824),
+                                padding:  EdgeInsets.only(top:height/3.8086),
+                                child: Container(
+                                    height:height/13.5,
+                                    color: Colors.transparent,
+                                    // margin:EdgeInsets.only(bottom:height/50.55),
+                                    child:CustomPaint(
+                                      size: Size(width,(width*0.833333333333334).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                                      painter: RPSCustomPainter3(
+                                      ),
+                                    )
+                                ),
+                              ),
+                              Padding(
+                                  padding:EdgeInsets.only(top:height/19,right:width/4.11,left:width/6.044117647058824),
                                   child:
                                   SizedBox(
                                       child:Stack(
-                                          alignment: Alignment.bottomCenter,
+                                          alignment: Alignment.centerLeft,
                                           children:[
                                             CustomPaint(
 
                                               size: Size(width,(width*0.333333333333334).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
                                               painter: painter,
                                             ),
-                                            Align(
-                                                alignment: Alignment.bottomLeft,
-                                                child:Padding(
-                                                    padding:EdgeInsets.only(left:width/50.2),
-                                                    child:
-                                                    FittedBox(
-                                                      child:Row(
-                                                          children:[
+                                            Padding(
+                                                padding:EdgeInsets.only(left:width/45.7,top:height/7.5),
+                                                child:
+                                                FittedBox(
+                                                  child:Row(
+                                                      children:[
 
-                                                            Icon(Icons.circle,color:Colors.white,size:width/38.1),
-                                                            Padding(
-                                                                padding:EdgeInsets.only(left:width/50.2),
-                                                                child: Text(widget.companyName.toString(),style: TextStyle(
-                                                                  color: Colors.white,
-                                                                  letterSpacing: 0.3,
-                                                                  fontWeight:FontWeight.w500,
-                                                                  fontSize:width/27.0126,
+                                                        Icon(Icons.circle,color:Colors.white,size:width/38.1),
+                                                        Padding(
+                                                            padding:EdgeInsets.only(left:width/50.2),
+                                                            child: Text(widget.companyName.toString(),style: TextStyle(
+                                                              color: Colors.white,
+                                                              letterSpacing: 0.3,
+                                                              fontWeight:FontWeight.w500,
+                                                              fontSize:width/27.0126,
 
-                                                                ),)
-                                                            )
-                                                          ]
-                                                      ),
-                                                    )
-                                                )),
+                                                            ),)
+                                                        )
+                                                      ]
+                                                  ),
+                                                )
+                                            ),
                                           ]
                                       )
                                   )
                               ),
-
-                              Container(
-                                  height:height/2.9862,
-                                  margin:EdgeInsets.only(bottom:height/50.55),
-                                  child:CustomPaint(
-                                    size: Size(width,(width*0.833333333333334).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                                    painter: RPSCustomPainter2(
-                                    ),
-                                  )
-                              ),
-
-
                               Padding(
-                                padding:EdgeInsets.only(bottom:height/33.7521,left:width/45.66666666666667),
+                                padding:EdgeInsets.only(top:height/4.4,left:width/45.66666666666667),
                                 child:
                                 Row(
                                     children:[
@@ -334,7 +387,7 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
                                           print(width);
                                         },
                                         child: Container(
-                                          height:height/14.6779,
+                                          height:height/13.8,
                                           width: width/6.96610,
                                           decoration: BoxDecoration(
                                               color: Colors.grey.shade300,
@@ -352,9 +405,8 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
                                     ]
                                 ),
                               ),
-
                               Padding(
-                                padding:  EdgeInsets.only(left:width/5.7,bottom:height/22.0),
+                                padding:  EdgeInsets.only(left:width/5.7,top:height/4.2),
                                 child:
                                 Row(
                                   children: [
@@ -413,9 +465,8 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
                                   ],
                                 ),
                               ),
-
                               Padding(
-                                  padding:  EdgeInsets.only(left:width/5.7,bottom:height/46.8),
+                                  padding:  EdgeInsets.only(left:width/5.7,top:height/3.5),
                                   child:
                                   Row(
                                       children:[
@@ -496,41 +547,107 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
                                       ]
                                   )
                               ),
+                              Padding(
+                                padding:  EdgeInsets.only(top:height/3.0),
+                                child: Container(
+                                    height: height/45.111,
 
-                              Container(
-                                  height: height/45.111,
-
-                                  color:
-                                  pickerColor,
-                                  width: double.infinity,
-                                  padding: EdgeInsets.only(left: width/78.4,right:width/78.4,
-                                  ),
-                                  child:Align
-                                    (   alignment: Alignment.centerLeft,
-                                      child:FittedBox(
-                                        child:Text(shareImgQuote.toString(),style: TextStyle(
-                                            color: Colors.white,
-                                            letterSpacing: 0.3,
-                                            fontWeight:FontWeight.w500,
-                                            overflow: TextOverflow.ellipsis
-                                        ),),
-                                      ))
+                                    color:
+                                    pickerColor,
+                                    width: double.infinity,
+                                    padding: EdgeInsets.only(left: width/78.4,right:width/78.4,
+                                    ),
+                                    child:Align
+                                      (   alignment: Alignment.centerLeft,
+                                        child:FittedBox(
+                                          child:Text(shareImgQuote.toString(),style: TextStyle(
+                                              color: Colors.white,
+                                              letterSpacing: 0.3,
+                                              fontWeight:FontWeight.w500,
+                                              overflow: TextOverflow.ellipsis
+                                          ),),
+                                        ))
+                                ),
                               ),
 
-
-
-
                             ],
-                          )),
-                    ))
-            ),
-          ],
-        )
-            : const CircularProgressIndicator()
-            : const CircularProgressIndicator(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+                        ],
+                      ),
+            )
+            :  Shimmer(
+          color: Colors.white54,
+              child: Material(
+                        elevation: 5,
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(18),
+                        child: Container(
+                height:height/2.8866,
+                width:width/1.37,
+                decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(18)
+                ),
+                child: Column(
+                  children: [
+                    Lottie.asset(dataLoadingLottie),
+                    KText(
+                      text: "Loading "+processPercentage.toString() + "%",
+                      style: TextStyle(
+                          fontFamily: "Davish",
+                          color: Colors.black,
+                          fontSize: width/22.8333,
+                          letterSpacing: 0.3
+                      ),
+                    ),
+                  ],
+                )),
+                      ),
+            )
+            : Shimmer(
+              color: Colors.white54,
+          child: Material(
+               elevation: 5,
+              color: Colors.grey.shade100,
+              borderRadius: BorderRadius.circular(18),
+                child: Container(
+                height:height/2.8866,
+                width:width/1.37,
+                           decoration: BoxDecoration(
+                 color: Colors.grey.shade100,
+                 borderRadius: BorderRadius.circular(18)
+                           ),
+                child: Column(
+                  children: [
+                    Lottie.asset(dataLoadingLottie),
+                     KText(
+                      text: "Loading "+processPercentage.toString() + "%",
+                      style: TextStyle(
+                          fontFamily: "Davish",
+                          color: Colors.black,
+                          fontSize: width/22.8333,
+                          letterSpacing: 0.3
+                      ),
+                    ),
+                  ],
+                )),
+              ),
+            )
       ),
-      floatingActionButton: FloatingActionButton(
+
+      floatingActionButton:
+
+      FloatingActionButton(
+
         onPressed: () async {
+          Receiver();
+          print("))))))))))))))))))))))))))))))))))))))");
 
           String networkImageUrl = 'https://firebasestorage.googleapis.com/v0/b/kp-enterpries.appspot.com/o/Images%2Fpngwing.com%20(3).png?alt=media&token=d332615e-286d-4e9a-bd12-d78877009e0d';
 
@@ -541,6 +658,8 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
         },
         child: const Icon(Icons.save),
       ),
+
+
     );
   }
 
@@ -621,56 +740,154 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
   }
 
   bool isloading = false;
-  Future<void> _overlayImageOnVideo(String networkImageUrl, String outputFilePath) async {
+
+    Future<void> _overlayImageOnVideo(String networkImageUrl, String outputFilePath) async {
+      _simulateSendingEvents();
+
+      double height=MediaQuery.of(context).size.height;
+      double width=MediaQuery.of(context).size.width;
+
+      print(_controller.value.size.height.round());
+      print(_controller.value.size.width.round());
+
+      print("controller valueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+
     FlutterFFmpeg _flutterFFmpeg = FlutterFFmpeg();
+
     setState(() {
       isloading = true;
     });
+
     final bytes = await controller.capture();
+
     setState(() {
       this.bytes = bytes;
     });
-    print("bytes__________________________________________");
-    print(bytes);
+
+
+      print("bytes__________________________________________");
+      print(bytes);
+      print(bytes!.lengthInBytes.toString());
+      print("Iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+      print(bytes.length);
+
     try {
-      // Download the overlay image
-      final http.Response response = await http.get(Uri.parse(networkImageUrl));
-      final Uint8List imageBytes = response.bodyBytes;
+      final img.Image? image = img.decodeImage(bytes!,frame: 60);
 
-      // Decode the image using the image package
-      final img.Image? image = img.decodeImage(bytes!);
+      final img.Image resizedImage = img.copyResize(image!,  height: 480, width: 848,);
 
-      // Resize the image to the specified width and height
-      final img.Image resizedImage =
-      img.copyResize(image!,  height: 363,
-        width: _controller.value.size.width.round(),);
-
-      // Convert the resized image to bytes
-      final Uint8List resizedImageBytes = Uint8List.fromList(img.encodePng(resizedImage));
+      final Uint8List resizedImageBytes = Uint8List.fromList(img.encodePng(resizedImage,));
 
       File overlayImageFile = File('${outputFilePath}_overlay.png');
 
       await overlayImageFile.writeAsBytes(resizedImageBytes);
 
-      await _flutterFFmpeg.execute(
-        '-i ${_controller.dataSource} -i ${overlayImageFile.path} -filter_complex "[0:v][1:v]overlay" -c:a copy $outputFilePath',
-      );
-      // Delete the temporary overlay image file
+      print(resizedImageBytes.length);
+
+      await _flutterFFmpeg.execute('-i ${_controller.dataSource} -i ${overlayImageFile.path} -filter_complex "[0:v][1:v]overlay" -c:a copy $outputFilePath');
+
       await overlayImageFile.delete();
+
       print('Video with overlay saved successfully at $outputFilePath');
+
       setState(() {
         isloading = false;
+        processPercentage=0;
+        _eventListener.dispose();
       });
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Video Saved Sucessfully")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Video Saved Successfully")));
+
     } catch (error) {
+
       print('Error: Failed to overlay image on video: $error');
+
     }
   }
-
 
   @override
   void dispose() {
     _controller.dispose();
+    _eventListener.dispose();
+    //_disableEventReceiver();
     super.dispose();
   }
+
+
 }
+
+
+
+class RPSCustomPainter3 extends CustomPainter{
+
+  @override
+  void paint(Canvas canvas, Size size) {
+
+
+
+    // Layer 1
+
+    Paint paint_fill_0 = Paint()
+      ..color = const Color.fromARGB(255, 255, 255, 255)
+      ..style = PaintingStyle.fill
+      ..strokeWidth = size.width*0.00
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.miter;
+
+
+    Path path_0 = Path();
+    path_0.moveTo(size.width*0.0019870,size.height*0.1);
+    path_0.lineTo(size.width*0.2499344,size.height*0.1);
+    path_0.lineTo(size.width*0.4855032,size.height*0.1);
+    path_0.lineTo(size.width*0.6909379,size.height*0.1);
+    path_0.lineTo(size.width*0.8625348,size.height*0.1);
+    path_0.lineTo(size.width*1.0068356,size.height*0.8539849);
+    path_0.lineTo(size.width*0.8644223,size.height*0.8539849);
+    path_0.lineTo(size.width*0.6001767,size.height*0.8585738);
+    path_0.lineTo(size.width*0.3653432,size.height*0.8606276);
+    path_0.lineTo(size.width*0.2113933,size.height*0.8619084);
+    path_0.lineTo(size.width*0.0589653,size.height*0.8642035);
+    path_0.lineTo(size.width*-0.0009003,size.height*0.8642870);
+    path_0.lineTo(size.width*0.0019870,size.height*0.9938873);
+    path_0.close();
+
+    canvas.drawPath(path_0, paint_fill_0);
+
+
+    // Layer 1
+
+    Paint paint_stroke_0 = Paint()
+      ..color = const Color.fromARGB(255, 33, 150, 243)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = size.width*0.00
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.miter;
+
+
+
+    canvas.drawPath(path_0, paint_stroke_0);
+
+
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+
+}
+
+
+class EventListener {
+  final StreamController<double> _controller = StreamController<double>();
+  Stream<double> get onEvent => _controller.stream;
+
+  void sendEvent(double event) {
+    _controller.add(event);
+  }
+
+  void dispose() {
+    _controller.close();
+  }
+}
+
+

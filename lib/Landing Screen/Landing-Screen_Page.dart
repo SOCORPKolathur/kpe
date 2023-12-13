@@ -93,14 +93,6 @@ class _firstpageState extends State<firstpage> {
 
             GestureDetector(
               onTap:(){
-
-
-                // Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeftJoined, ctx: context,
-                //     alignment: Alignment.center,
-                //     duration: Duration(seconds: 2),
-                //     childCurrent:Container() ,
-                //     curve: Curves.fastLinearToSlowEaseIn,
-                //     child: Profile_Page()));
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const Profile_Page(),));
 
               },
@@ -110,10 +102,14 @@ class _firstpageState extends State<firstpage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(width / 12.06),
                   border: Border.all(color: const Color(0xffCFE8FF)),
+                  image:UserImg==""?
+                  const DecorationImage(
+                      image: AssetImage("assets/pic.png")
+                  )
+                        :DecorationImage(
+                    image: NetworkImage(UserImg.toString())
+                  )
                 ),
-                child:
-                UserImg==""?
-                Image.asset("assets/pic.png"):Image.network(UserImg.toString()),
               ),
             ),
           ],

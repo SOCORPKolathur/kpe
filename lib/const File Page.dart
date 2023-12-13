@@ -10,4 +10,6 @@ String OverAllLoading="assets/Loading_file.json";
 
 String LogOutLottie="assets/Signout.json";
 
+String dataLoadingLottie="assets/data Loading File.json";
+
 String shareImgQuote="Insurance is s Subject Matter of Solicitation,and the policy is issued based on contract between the insured and insurer";
