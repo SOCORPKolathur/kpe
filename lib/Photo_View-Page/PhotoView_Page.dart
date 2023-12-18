@@ -54,9 +54,11 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
   int redColor=0;
   int blueColor=0;
   int greenColor=0;
+  double adjustableheight=0;
 
   @override
   void initState() {
+    getimagesizefunction();
     if(widget.companyType!=""){
       setState(() {
         DropdownImage="";
@@ -174,7 +176,7 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                         controller: controller,
                         child:
                         Container(
-                          height:height/1.59,
+                          height:height/1.59+height/adjustableheight,
                           width: width/1.03885,
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -193,10 +195,11 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                               Padding(
                                 padding:  EdgeInsets.only(bottom: height/10.7),
                                 child: Container(
-                                    height:height/2.0,
+                                  height:height/1.59+height/adjustableheight,
+                                   // height:height/2.0,
                                     width: double.infinity,
                                     decoration: BoxDecoration(
-                                      color:Colors.yellow,
+                                      color:Colors.white,
                                       image: DecorationImage(
                                         fit: BoxFit.fill,
                                         image: NetworkImage(widget.img.toString(),),
@@ -255,7 +258,6 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                     ),
                                   )
                               ),
-
 
                               Padding(
                                 padding:EdgeInsets.only(bottom:height/33.7521,left:width/45.66666666666667),
@@ -625,6 +627,19 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
     print(DropdownImage);
   }
 
+
+  getimagesizefunction() async {
+    final response = await http.get(Uri.parse(widget.img.toString()));
+    final bytes = response.bodyBytes;
+    final decodedImage = await decodeImageFromList(bytes);
+    setState(() {
+      adjustableheight= double.parse(decodedImage.height.toString());
+    });
+
+    print(adjustableheight);
+    print("Adjustable Height+++++++++++++++++++++++++++++++++++++++++++++");
+
+  }
 
 
   colorPickerPopup(){
