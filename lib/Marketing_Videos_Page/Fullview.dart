@@ -53,7 +53,7 @@ class VideoPlayerFullview extends StatefulWidget {
 
 class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
 
-  late VideoPlayerController _controller;
+  late VideoPlayerController _videocontroller;
 
   static const EventChannel _channel = EventChannel('video_editor_progress');
   late StreamSubscription _streamSubscription;
@@ -134,14 +134,14 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
   }
 
   void _initializeVideoPlayer(String networkVideoUrl) {
-    _controller = VideoPlayerController.network(networkVideoUrl)
+    _videocontroller = VideoPlayerController.network(networkVideoUrl)
       ..initialize().then((_) {
 
         setState(() {});
       });
 
-    _controller.addListener(() {
-      if (_controller.value.isPlaying) {
+    _videocontroller.addListener(() {
+      if (_videocontroller.value.isPlaying) {
         // Video is playing, you can overlay an image here
       }
     });
@@ -288,20 +288,18 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
       ),
 
       body: Center(
-        child: isloading==false?_controller.value.isInitialized
+        child: isloading==false?_videocontroller.value.isInitialized
             ? Container(
                height:(MediaQuery.of(context).size.width)/16*9+height/10.3,
                 width: width/1,
-              color: Colors.red,
+              color: Colors.white,
               child: Stack(
                 alignment: Alignment.topCenter,
                 children: [
 
               AspectRatio(
                   aspectRatio:16/9,
-                  child: VideoPlayer(_controller)),
-
-
+                  child: VideoPlayer(_videocontroller)),
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -310,12 +308,13 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
                     child: GestureDetector(
                       onTap: (){
                         setState(() {
-                          _controller.play();
+                          _videocontroller.play();
                         });
                       },
                       child: Container(
                         color: Colors.transparent,
                         width:width/1,
+                        height: (MediaQuery.of(context).size.width)/16*9+height/10.3,
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
@@ -740,8 +739,8 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
       double height=MediaQuery.of(context).size.height;
       double width=MediaQuery.of(context).size.width;
 
-      print(_controller.value.size.height.round());
-      print(_controller.value.size.width.round());
+      print(_videocontroller.value.size.height.round());
+      print(_videocontroller.value.size.width.round());
 
       print("controller valueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 
@@ -768,7 +767,7 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
       final img.Image? image = img.decodeImage(bytes!,frame: 60,);
 
 
-      final img.Image resizedImage = img.copyResize(image!,  height: _controller.value.size.height.round(), width: _controller.value.size.width.round(),);
+      final img.Image resizedImage = img.copyResize(image!,  height:  _videocontroller.value.size.height.round(), width: _videocontroller.value.size.width.round(),);
 
       final Uint8List resizedImageBytes = Uint8List.fromList(img.encodePng(resizedImage,));
 
@@ -778,7 +777,14 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
 
       print(resizedImageBytes.length);
 
-      await _flutterFFmpeg.execute('-i ${_controller.dataSource} -i ${overlayImageFile.path} -filter_complex "[0:v][1:v]overlay" -c:a copy $outputFilePath');
+     // await _flutterFFmpeg.execute('-i ${_videocontroller.dataSource} -i ${overlayImageFile.path} -filter_complex "[0:v][1:v]overlay" -c:a copy $outputFilePath');
+    //  await _flutterFFmpeg.execute('-i ${_videocontroller.dataSource} -${overlayImageFile.path} "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:-1:-1:color=black" $outputFilePath');
+
+      await _flutterFFmpeg.execute('-i ${_videocontroller.dataSource} -i ${overlayImageFile.path} -i ${overlayImageFile.path} -filter_complex "[0]scale=1200:325[vid];[1][vid]overlay=(W-w)/2:10[bg1];[bg1][2]overlay=(W-w)/2:(H-h-10)" $outputFilePath.mp4');
+
+      // await _flutterFFmpeg.execute(
+      //   '-i ${_videocontroller.dataSource} -i ${overlayImageFile.path} -filter_complex "[0:v][1:v] overlay=0:H-h-10:enable=\'between(t,1,5)\' [out]" -map "[out]" -map 0:a $outputFilePath',
+      // );
 
       await overlayImageFile.delete();
 
@@ -789,6 +795,7 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
         processPercentage=0;
         _eventListener.dispose();
       });
+
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Video Saved Successfully")));
 
     } catch (error) {
@@ -800,7 +807,7 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _videocontroller.dispose();
     _eventListener.dispose();
     //_disableEventReceiver();
     super.dispose();
