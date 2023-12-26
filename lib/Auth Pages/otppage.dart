@@ -9,8 +9,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
-
-import '../Landing Screen/Landing-Screen_Page.dart';
 import '../Translator_Module/Translator_Module_Page.dart';
 import 'SetProfile_Page.dart';
 

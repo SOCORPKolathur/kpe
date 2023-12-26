@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import '../Landing Screen/Landing-Screen_Page.dart';
 import '../Translator_Module/Translator_Module_Page.dart';
 

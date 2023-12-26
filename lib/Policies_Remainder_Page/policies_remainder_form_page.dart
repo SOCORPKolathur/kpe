@@ -302,8 +302,8 @@ class _policies_remainder_form_pageState extends State<policies_remainder_form_p
                                         return "Field is Empty";
 
                                       }
-                                      else if(value!.isNotEmpty){
-                                        if(value!.length!=10){
+                                      else if(value.isNotEmpty){
+                                        if(value.length!=10){
                                           return "Please Fill the Phone Number Correctly";
                                         }
                                       }

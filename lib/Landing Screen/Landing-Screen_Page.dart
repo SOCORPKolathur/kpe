@@ -1,6 +1,5 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fancy_flutter_dialog/fancy_flutter_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_translate/flutter_translate.dart';
@@ -9,18 +8,13 @@ import 'package:kpe/Agent_Training_Page/Agent_Training_Page.dart';
 import 'package:kpe/Marketing_Flyers_Page/marketing.dart';
 import 'package:kpe/Policies_Remainder_Page/Policies_Remainder_Page.dart';
 import 'package:lottie/lottie.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Auth Pages/Login_Page.dart';
 import '../Calculator_Page/Calculator_Page.dart';
 import '../Marketing_Videos_Page/Marketing_Videos_Page.dart';
-import '../Plan_Comb_Page/Plan_Comb_Page.dart';
-import '../Plan_Compare_Page/Plan_Compare_Page.dart';
-import '../Plan_Details_Page/Plan_Details_Page.dart';
 import '../Polices_Form_Page/Polices_Form_Page.dart';
-import '../Premium_Plan_Page/premium.dart';
 import '../Profile_Page/Profile_Page.dart';
 import '../Setting_Page/Setting_Page.dart';
 import '../Translator_Module/Translator_Module_Page.dart';

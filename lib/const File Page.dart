@@ -8,6 +8,7 @@ String AvatorImg="assets/Avator .png";
 String AppName="Kalpana Enterprises";
 String OverAllLoading="assets/Loading_file.json";
 
+
 String LogOutLottie="assets/Signout.json";
 
 String dataLoadingLottie="assets/data Loading File.json";

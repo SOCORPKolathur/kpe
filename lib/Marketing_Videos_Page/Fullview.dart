@@ -12,24 +12,12 @@ import 'package:dio/dio.dart';
 import 'package:image/image.dart' as img;
 import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:widgets_to_image/widgets_to_image.dart';
-import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import '../Photo_View-Page/PhotoView_Page.dart';
 import '../Translator_Module/Translator_Module_Page.dart';
-import 'package:http/http.dart'as http;
-import 'package:widgets_to_image/widgets_to_image.dart';
-
 import '../const File Page.dart';
 import 'dart:async';
 
@@ -290,23 +278,24 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
       body: Center(
         child: isloading==false?_videocontroller.value.isInitialized
             ? Container(
-               height:(MediaQuery.of(context).size.width)/16*9+height/10.3,
+               height:height/1.732,
                 width: width/1,
               color: Colors.white,
               child: Stack(
                 alignment: Alignment.topCenter,
                 children: [
-
-              AspectRatio(
-                  aspectRatio:16/9,
-                  child: VideoPlayer(_videocontroller)),
-              Column(
+                  Container(
+                      color: Colors.white,
+                      child: VideoPlayer(_videocontroller)),
+                  Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   WidgetsToImage(
                     controller: controller,
                     child: GestureDetector(
                       onTap: (){
+                        print(height);
+                        print(width);
                         setState(() {
                           _videocontroller.play();
                         });
@@ -314,7 +303,7 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
                       child: Container(
                         color: Colors.transparent,
                         width:width/1,
-                        height: (MediaQuery.of(context).size.width)/16*9+height/10.3,
+                        height: (MediaQuery.of(context).size.width)/16*9+height/10.8,
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
@@ -755,8 +744,6 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
     setState(() {
       this.bytes = bytes;
     });
-
-
       print("bytes__________________________________________");
       print(bytes);
       print(bytes!.lengthInBytes.toString());
@@ -764,10 +751,8 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
       print(bytes.length);
 
     try {
-      final img.Image? image = img.decodeImage(bytes!,frame: 60,);
-
-
-      final img.Image resizedImage = img.copyResize(image!,  height:  _videocontroller.value.size.height.round(), width: _videocontroller.value.size.width.round(),);
+      final img.Image? image = img.decodeImage(bytes!,frame: 180,);
+      final img.Image resizedImage = img.copyResize(image!,  height: 870, width: _videocontroller.value.size.width.round(),);
 
       final Uint8List resizedImageBytes = Uint8List.fromList(img.encodePng(resizedImage,));
 
@@ -777,14 +762,8 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
 
       print(resizedImageBytes.length);
 
-     // await _flutterFFmpeg.execute('-i ${_videocontroller.dataSource} -i ${overlayImageFile.path} -filter_complex "[0:v][1:v]overlay" -c:a copy $outputFilePath');
-    //  await _flutterFFmpeg.execute('-i ${_videocontroller.dataSource} -${overlayImageFile.path} "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:-1:-1:color=black" $outputFilePath');
-
-      await _flutterFFmpeg.execute('-i ${_videocontroller.dataSource} -i ${overlayImageFile.path} -i ${overlayImageFile.path} -filter_complex "[0]scale=1200:325[vid];[1][vid]overlay=(W-w)/2:10[bg1];[bg1][2]overlay=(W-w)/2:(H-h-10)" $outputFilePath.mp4');
-
-      // await _flutterFFmpeg.execute(
-      //   '-i ${_videocontroller.dataSource} -i ${overlayImageFile.path} -filter_complex "[0:v][1:v] overlay=0:H-h-10:enable=\'between(t,1,5)\' [out]" -map "[out]" -map 0:a $outputFilePath',
-      // );
+      //await _flutterFFmpeg.execute('-i ${_videocontroller.dataSource} -i ${overlayImageFile.path} -filter_complex "[0:v][1:v]overlay=x=W-w-10:y=H-h-0" -c:a copy $outputFilePath');
+      await _flutterFFmpeg.execute('-i ${_videocontroller.dataSource} -i ${overlayImageFile.path} -filter_complex "[0:v][1:v]overlay=x=W-w-10:y=H-h-0" -c:a copy -b:v 5M $outputFilePath');
 
       await overlayImageFile.delete();
 

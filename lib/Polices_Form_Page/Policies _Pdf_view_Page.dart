@@ -1,14 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:kpe/Polices_Form_Page/ViewPdfFile.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Translator_Module/Translator_Module_Page.dart';
-import 'PdfView_file_second_Page.dart';
 
 class Policies_Pdf_view_Page extends StatefulWidget {
   String?pdfview;

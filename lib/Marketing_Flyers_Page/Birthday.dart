@@ -1,12 +1,8 @@
-import 'dart:async';
-import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
 import '../Photo_View-Page/PhotoView_Page.dart';
 import '../Translator_Module/Translator_Module_Page.dart';
 import 'package:http/http.dart'as http;

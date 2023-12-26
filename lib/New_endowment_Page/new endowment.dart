@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_translate/flutter_translate.dart';
 import 'package:kpe/Translator_Module/Translator_Module_Page.dart';
 import 'package:pdf/pdf.dart';
@@ -17,9 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:translator/translator.dart';
-import '../Translator_Module/Translator_Module_Page.dart';
-import '../Translator_Module/Translator_Module_Page.dart';
-import '../Translator_Module/Translator_Module_Page.dart';
+
 import '../const File Page.dart';
 import 'New_Endowment_details_Page.dart';
 import 'package:intl/intl.dart';

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_translate/flutter_translate.dart';
-import 'package:kpe/demo_apge.dart';
 import 'Auth Pages/Login_Page.dart';
 import 'Landing Screen/Landing-Screen_Page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
