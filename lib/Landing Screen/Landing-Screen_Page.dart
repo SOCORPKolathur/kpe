@@ -844,6 +844,7 @@ class _firstpageState extends State<firstpage> {
                 ),
               ),
             ),
+
             SizedBox(height: height/41.028,)
 
           ],

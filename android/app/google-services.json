@@ -7,9 +7,133 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1071854083954:android:5192fb48c154122fe1c7eb",
+        "android_client_info": {
+          "package_name": "com.example.kalpana_enterprises"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071854083954-krpvc9jrdhhsahugoe8gm1f4hmpobq6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkORVqsKCy3VhIP_NHsMEaecD533kqLgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071854083954-krpvc9jrdhhsahugoe8gm1f4hmpobq6d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1071854083954:android:07e590b2cf2596cbe1c7eb",
         "android_client_info": {
           "package_name": "com.example.kpe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071854083954-hodtk14lve1vajspcta97gb3v1u0c0sj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.kpe",
+            "certificate_hash": "824c02e99b5bb87cbcca96ac94cb67ad27581250"
+          }
+        },
+        {
+          "client_id": "1071854083954-krpvc9jrdhhsahugoe8gm1f4hmpobq6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkORVqsKCy3VhIP_NHsMEaecD533kqLgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071854083954-krpvc9jrdhhsahugoe8gm1f4hmpobq6d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071854083954:android:62d678fba5eaa663e1c7eb",
+        "android_client_info": {
+          "package_name": "com.info.socorp.kalpana_enterprises"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071854083954-krpvc9jrdhhsahugoe8gm1f4hmpobq6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkORVqsKCy3VhIP_NHsMEaecD533kqLgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071854083954-krpvc9jrdhhsahugoe8gm1f4hmpobq6d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071854083954:android:e3d0c8a8334ca141e1c7eb",
+        "android_client_info": {
+          "package_name": "com.mechuter.kalpana_enterprises"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071854083954-krpvc9jrdhhsahugoe8gm1f4hmpobq6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkORVqsKCy3VhIP_NHsMEaecD533kqLgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071854083954-krpvc9jrdhhsahugoe8gm1f4hmpobq6d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071854083954:android:885659bf4a82b8ece1c7eb",
+        "android_client_info": {
+          "package_name": "info.socorp.kalpana_enterprises"
         }
       },
       "oauth_client": [

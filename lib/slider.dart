@@ -165,7 +165,6 @@ class _Banner2State extends State<Banner2> {
                             height: height / 6.59,
                             width: width/1.07,
                             decoration: BoxDecoration(
-                              color: Colors.red,
                                 borderRadius: BorderRadius.circular(15),
                               image:  DecorationImage(
                                 fit: BoxFit.fill,

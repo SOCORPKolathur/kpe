@@ -101,6 +101,7 @@ String PinValue='';
               padding: EdgeInsets.only(bottom: height / 30.10),
               child:  KText(
                   text:'An OTP has been sent to your phone \n +91 ${widget.phone}',
+                  align: TextAlign.center,
                   style:const TextStyle(
                       fontFamily: "Davish",
                       fontWeight: FontWeight.w500,
@@ -155,8 +156,6 @@ String PinValue='';
                       });
                     }
                     catch(e){
-
-
                   }
                 },
             ),
