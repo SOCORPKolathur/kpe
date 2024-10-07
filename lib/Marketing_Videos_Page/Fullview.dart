@@ -93,7 +93,7 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
     // Replace 'YOUR_NETWORK_VIDEO_URL' with the actual URL of the network video
     String networkVideoUrl = widget.videourl!;
     _initializeVideoPlayer(networkVideoUrl);
-    createpath();
+    createpath2();
     if(widget.companyType!=""){
       setState(() {
         DropdownImage="";
@@ -454,7 +454,7 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
                                     children:[
                                       Container(
                                           height: height/42.57894736842105,
-                                          width: width/3.1,
+                                          width: width/3.2,
                                           color:Colors.white,
                                           child:
                                           Align(
@@ -493,10 +493,10 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
                                                         Padding(
                                                           padding:  EdgeInsets.only(left:width/68.5),
                                                           child: Container(
-                                                              height:height/41.2380,
-                                                              width:width/19.5714,
+                                                              height:height/38.2,
+                                                              width:width/16.5,
                                                               decoration:BoxDecoration(
-                                                                  color: Colors.transparent,
+                                                                  color: Colors.white,
                                                                   image:DecorationImage(
                                                                       fit:BoxFit.contain,
                                                                       image:NetworkImage(
@@ -627,12 +627,13 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
       FloatingActionButton(
 
         onPressed: () async {
+          _videocontroller.pause();
           Receiver();
           print("))))))))))))))))))))))))))))))))))))))");
 
           String networkImageUrl = 'https://firebasestorage.googleapis.com/v0/b/kp-enterpries.appspot.com/o/Images%2Fpngwing.com%20(3).png?alt=media&token=d332615e-286d-4e9a-bd12-d78877009e0d';
 
-          String path = '$filepath/${DateTime.now().millisecondsSinceEpoch}result.mp4';
+          String path = '$filepath/${DateTime.now().millisecondsSinceEpoch}.mp4';
           String outputFilePath = path;
 
           await _overlayImageOnVideo(networkImageUrl, outputFilePath);
@@ -650,7 +651,7 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
   double progress = 0;
   var filepath;
 
-  Future<bool> createpath() async {
+  /*Future<bool> createpath() async {
     print("Creating");
     Directory directory;
     try {
@@ -684,7 +685,7 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
         }
       }
       setState(() {
-        filepath = directory.path;
+        filepath = "/storage/emulated/0/Download";
       });
       print(directory.path);
       if (!await directory.exists()) {
@@ -696,15 +697,26 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
         });
         print(directory.path);
       }
+      print(filepath);
+      print("--------------------------------------------");
+
       return true;
     }
     catch (e) {
       print(e);
+      print(filepath);
+      print("--------------------------------------------");
       return false;
     }
+
+  }*/
+  createpath2(){
+    setState(() {
+      filepath = "/storage/emulated/0/Download";
+    });
   }
 
-  Future<bool> _requestPermission(Permission permission) async {
+  /*Future<bool> _requestPermission(Permission permission) async {
 
     if (await permission.isGranted) {
       return true;
@@ -718,7 +730,7 @@ class _VideoPlayerFullviewState extends State<VideoPlayerFullview> {
       }
     }
     return false;
-  }
+  }*/
 
   bool isloading = false;
 

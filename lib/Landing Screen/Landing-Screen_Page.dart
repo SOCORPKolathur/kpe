@@ -33,6 +33,8 @@ class _firstpageState extends State<firstpage> {
 
   String UserToken='';
   String UserImg='';
+  String UserName='';
+  String UserPhoneno='';
   String userid= FirebaseAuth.instance.currentUser!.uid;
   @override
   void initState() {
@@ -50,6 +52,8 @@ class _firstpageState extends State<firstpage> {
     setState(() {
       UserToken=values!["fcm_token"];
       UserImg=values!["Img"];
+      UserName=values!["Name"];
+      UserPhoneno=values!["Phone"];
     });
 
 
@@ -665,7 +669,7 @@ class _firstpageState extends State<firstpage> {
                           ///share
                           GestureDetector(
                             onTap: (){
-                              Share.share("Hello");
+                              Share.share("Hi, Kindly Install Kalpana Enterprises App in the play store by this link: https://play.google.com/store/apps/details?id=info.socorp.kalpana_enterprises");
                             },
                             child: Column(
                               children: [
@@ -698,7 +702,9 @@ class _firstpageState extends State<firstpage> {
                           GestureDetector(
                             onTap: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context) =>  Policies_Remainder_Page(
-                                  Token:UserToken.toString()
+                                  Token:UserToken.toString(),
+                                authName: UserName.toString(),
+                                  authPhone: UserPhoneno.toString(),
                               ),));
                             },
                             child: Column(
@@ -770,7 +776,7 @@ class _firstpageState extends State<firstpage> {
                           ///contact us
                           GestureDetector(
                             onTap: (){
-                              launch("tel:‎+91 1234567890");
+                              launch("tel:‎+91 93447 47770");
                             },
                             child: Column(
                               children: [

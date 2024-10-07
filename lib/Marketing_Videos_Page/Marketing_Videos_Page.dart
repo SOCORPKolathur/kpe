@@ -29,6 +29,7 @@ class _Marketing_Videos_PageState extends State<Marketing_Videos_Page> {
   String companyName="";
   String companyType="";
   String companyIMage="";
+
   getDateFromUser() async {
     print("user+++++++++++++++++++++++++++++++++++++++");
     var getdata=await FirebaseFirestore.instance.collection("Users").doc(FirebaseAuth.instance.currentUser!.uid).get();

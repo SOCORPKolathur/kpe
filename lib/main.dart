@@ -71,7 +71,7 @@ class _MyAppState extends State<MyApp> {
         ),
         home:
         //Demo_Page(),
-       FirebaseAuth.instance.currentUser==null?const loginpage(): firstpage(),
+       FirebaseAuth.instance.currentUser==null?const loginpage(): const firstpage(),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
