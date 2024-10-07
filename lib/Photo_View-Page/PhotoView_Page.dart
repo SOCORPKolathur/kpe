@@ -215,7 +215,7 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                   )
                                 ),
 
-                                Padding(
+                          /*      Padding(
                                   padding:EdgeInsets.only(bottom:height/14.1967,right:width/4.11,left:width/6.044117647058824),
                                   child:
                                   SizedBox(
@@ -255,9 +255,9 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                         ]
                                     )
                                   )
-                                ),
+                                ),*/
 
-                                Container(
+                             /*   Container(
                                   height:height/2.9862,
                                     width: width/1.03885,
                                   margin:EdgeInsets.only(bottom:height/50.55),
@@ -266,38 +266,10 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                       painter: RPSCustomPainter2(
                                       ),
                                     )
-                                ),
+                                ),*/
                                 //image
-                                Padding(
-                                  padding:EdgeInsets.only(bottom:height/33.7521,left:width/45.66666666666667),
-                                  child:
-                                  Row(
-                                      children:[
-                                        GestureDetector(
-                                          onTap: (){
-                                            print(height);
-                                            print(width);
-                                          },
-                                          child: Container(
-                                            height:height/14.6779,
-                                            width: width/6.96610,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey.shade300,
-                                                border: Border.all(color: pickerColor),
-                                                borderRadius: BorderRadius.circular(5),
-                                                image: widget.userImg==""?
-                                                DecorationImage(image: AssetImage(AvatorImg)):
-                                                DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image: NetworkImage(widget.userImg.toString())
-                                                )
-                                            ),
-                                          ),
-                                        ),
-                                      ]
-                                  ),
-                                ),
 
+/*
                                 Padding(
                                   padding:  EdgeInsets.only(left:width/5.7,bottom:height/22.0),
                                   child:
@@ -443,48 +415,158 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                     )
                                 ),
 
-                                Container(
-                                    height: height/45.111,
+                             */
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 18.0),
+                                  child: Container(
+                                      height: height/45.111,
 
-                                    color:
-                                    pickerColor,
-                                    width: double.infinity,
-                                    padding: EdgeInsets.only(left: width/78.4,right:width/78.4,
-                                    ),
-                                    child:Align
-                                      (   alignment: Alignment.centerLeft,
-                                        child:FittedBox(
-                                          child:Text(shareImgQuote.toString(),style: TextStyle(
-                                              color: Colors.white,
-                                              letterSpacing: 0.3,
-                                              fontWeight:FontWeight.w500,
-                                              overflow: TextOverflow.ellipsis
-                                          ),),
-                                        ))
+                                      color:
+                                      pickerColor,
+                                      width: double.infinity,
+                                      padding: EdgeInsets.only(left: width/78.4,right:width/78.4,
+                                      ),
+                                      child:Align
+                                        (   alignment: Alignment.centerLeft,
+                                          child:FittedBox(
+                                            child:Text(shareImgQuote.toString(),style: TextStyle(
+                                                color: Colors.white,
+                                                letterSpacing: 0.3,
+                                                fontWeight:FontWeight.w500,
+                                                overflow: TextOverflow.ellipsis
+                                            ),),
+                                          ))
+                                  ),
                                 ),
-
-                                Container(
-                                  child: Image.asset("assets/image_bg.png"),
+                                Padding(
+                                  padding:EdgeInsets.only(bottom:height/13.7521,left:width/45.66666666666667),
+                                  child:
+                                  Row(
+                                      children:[
+                                        GestureDetector(
+                                          onTap: (){
+                                            print(height);
+                                            print(width);
+                                          },
+                                          child: Container(
+                                            height:height/14.6779,
+                                            width: width/6.96610,
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey.shade300,
+                                                // border: Border.all(color: pickerColor),
+                                                borderRadius: BorderRadius.circular(5),
+                                                image: widget.userImg==""?
+                                                DecorationImage(image: AssetImage(AvatorImg)):
+                                                DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: NetworkImage(widget.userImg.toString())
+                                                )
+                                            ),
+                                          ),
+                                        ),
+                                      ]
+                                  ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child:FittedBox(
-                                      child:Row(
-                                          children:[
-                                            Icon(Icons.phone,color:pickerColor,size:width/22.1),
-                                            Padding(
-                                                padding:  EdgeInsets.only(left:width/1000.44),
-                                                child:Text(" ${widget.userPhone.toString()}",style: TextStyle(
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 35.0),
+                                  child: Container(
+                                    child: Image.asset("assets/flyer_bg.png"),
+                                  ),
+                                ),
+                             Padding(padding: EdgeInsets.only(top: 430,left: 103),
+                             child:  Column(
+                               crossAxisAlignment: CrossAxisAlignment.end,
+                               children: [
+                                 Container(
+                                   height: 13,
+                                   width:100,
+                                   child: Row(
+                                       mainAxisAlignment: MainAxisAlignment.end,
+                                       children:[
+                                         Icon(Icons.phone,color:pickerColor,size:width/42.1),
+                                         Padding(
+                                             padding:  EdgeInsets.only(left:width/1000.44),
+                                             child:Text(" ${widget.userPhone.toString()}",style: TextStyle(
+                                               fontSize: 10,
 
-                                                    color: pickerColor,
-                                                    letterSpacing: 0.3,
-                                                    overflow: TextOverflow.ellipsis
-                                                ),)
-                                            )
-                                          ]
+                                                 color: pickerColor,
+                                                 letterSpacing: 0.3,
+                                                 overflow: TextOverflow.ellipsis
+                                             ),)
+                                         )
+                                       ]
+                                   ),
+                                 ),
+                                 Container(
+                                   height: 14,
+                                   width:200,
+                                   child: Row(
+                                     mainAxisAlignment: MainAxisAlignment.end,
+                                       children:[
+                                         Icon(Icons.mail,color:pickerColor,size:width/42.1),
+                                         Padding(
+                                             padding:  EdgeInsets.only(left:width/1000.44),
+                                             child:Text(" ${widget.userEmail.toString()}",style: TextStyle(
+                                                 fontSize: 10,
+                                                 color: pickerColor,
+                                                 letterSpacing: 0.3,
+                                                 overflow: TextOverflow.ellipsis
+                                             ),)
+                                         )
+                                       ]
+                                   ),
+                                 ),
+                                 Container(
+                                   height: 15,
+                                   width:200,
+                                   child: Row(
+                                       mainAxisAlignment: MainAxisAlignment.end,
+                                       children:[
+                                         Icon(Icons.location_pin,color:pickerColor,size:width/42.1),
+                                         Padding(
+                                             padding:  EdgeInsets.only(left:width/1000.44),
+                                             child:Text(" ${widget.companyName.toString()}",style: TextStyle(
+                                                 fontSize: 10,
+                                                 color: pickerColor,
+                                                 letterSpacing: 0.3,
+                                                 overflow: TextOverflow.ellipsis
+                                             ),)
+                                         )
+                                       ]
+                                   ),
+                                 ),
+                               ],
+                             )
+                             ),
+                             Padding(padding: EdgeInsets.only(top: 380,left: 5,bottom: 35),
+                             child:  Padding(
+                                 padding:  EdgeInsets.only(left:width/1000.44),
+                                 child:Text(" ${widget.userName.toString()}",style: TextStyle(
+                                     fontSize: 15,
+
+                                     color: Colors.white,
+                                     letterSpacing: 0.3,
+                                     overflow: TextOverflow.ellipsis
+                                 ),)
+                             )
+                             ),
+                                Padding(
+                                  padding:  EdgeInsets.only(left:305,top: 330,bottom: 38),
+                                  child: Container(
+                                      height:height/25.2,
+                                      width:width/4.5,
+                                      alignment: Alignment.center,
+                                      decoration:BoxDecoration(
+                                          color: Colors.transparent,
+                                          image:DecorationImage(
+                                              fit:BoxFit.contain,
+                                              image:NetworkImage(
+                                                  DropdownImage==""?
+                                                  widget.companyIMage.toString():DropdownImage.toString())
+                                          )
                                       )
                                   ),
-                                )
+                                ),
 
 
                               ],
