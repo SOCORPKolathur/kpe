@@ -215,7 +215,7 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                   )
                                 ),
 
-                          /*      Padding(
+                                Padding(
                                   padding:EdgeInsets.only(bottom:height/14.1967,right:width/4.11,left:width/6.044117647058824),
                                   child:
                                   SizedBox(
@@ -255,9 +255,9 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                         ]
                                     )
                                   )
-                                ),*/
+                                ),
 
-                             /*   Container(
+                                Container(
                                   height:height/2.9862,
                                     width: width/1.03885,
                                   margin:EdgeInsets.only(bottom:height/50.55),
@@ -266,10 +266,9 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                       painter: RPSCustomPainter2(
                                       ),
                                     )
-                                ),*/
+                                ),
                                 //image
 
-/*
                                 Padding(
                                   padding:  EdgeInsets.only(left:width/5.7,bottom:height/22.0),
                                   child:
@@ -313,10 +312,10 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                               FittedBox(
                                                   child:Row(
                                                       children:[
-                                                        Icon(Icons.mail,color:pickerColor,size:width/22.1),
+                                                        Icon(Icons.mark_unread_chat_alt_rounded,color:pickerColor,size:width/22.1),
                                                         Padding(
                                                           padding:EdgeInsets.only(left:width/82.2),
-                                                          child:Text("${widget.userEmail.toString()}", style: TextStyle(
+                                                          child:Text("${widget.userPhone.toString()}", style: TextStyle(
 
                                                               color: pickerColor,
                                                               letterSpacing: 0.3,
@@ -338,7 +337,7 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                         children:[
                                           Container(
                                               height: height/42.57894736842105,
-                                              width: width/3.2,
+                                              width: width/3.0,
                                               color:Colors.white,
                                               child:
                                               Align(
@@ -346,10 +345,10 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                                 child:FittedBox(
                                                     child:Row(
                                                         children:[
-                                                          Icon(Icons.phone,color:pickerColor,size:width/22.1),
+                                                          Icon(Icons.business_center,color:pickerColor,size:width/22.1),
                                                           Padding(
                                                               padding:  EdgeInsets.only(left:width/1000.44),
-                                                              child:Text(" ${widget.userPhone.toString()}",style: TextStyle(
+                                                              child:Text(" ${companyTypecon.text.toString()}",style: TextStyle(
 
                                                                   color: pickerColor,
                                                                   letterSpacing: 0.3,
@@ -363,49 +362,25 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                           ),
 
                                           Container(
-                                              color:Colors.white,
                                               height: height/42.57894736842105,
-                                              width: width/2.68,
+                                              width: width/2.78,
+                                              color:Colors.white,
                                               child:
                                               Align(
                                                   alignment: Alignment.centerLeft,
                                                   child:
                                                   FittedBox(
-                                                      child:
-                                                      Row(
+                                                      child:Row(
                                                           children:[
+                                                            Icon(Icons.phone,color:pickerColor,size:width/22.1),
                                                             Padding(
-                                                              padding:  EdgeInsets.only(left:width/68.5),
-                                                              child: Container(
-                                                                  height:height/38.2,
-                                                                  width:width/16.5,
-                                                                alignment: Alignment.center,
-                                                                decoration:BoxDecoration(
-                                                                    color: Colors.transparent,
-                                                                  image:DecorationImage(
-                                                                    fit:BoxFit.contain,
-                                                                    image:NetworkImage(
-                                                                        DropdownImage==""?
-                                                                        widget.companyIMage.toString():DropdownImage.toString())
-                                                                  )
-                                                                )
-                                                              ),
-                                                            ),
-                                                            Container(
-                                                              color:Colors.white,
-                                                            //    margin: EdgeInsets.only(left:width/25.44),
-                                                                height: height/42.57894736842105,
-                                                              width: width/2.68,
-                                                              child:Padding(
-                                                                  padding:  EdgeInsets.only(left:width/1000.44),
-                                                                  child:Text(" ${ companyTypecon.text.toString()}",style: TextStyle(
+                                                              padding:EdgeInsets.only(left:width/82.2),
+                                                              child:Text("${widget.userPhone.toString()}", style: TextStyle(
 
-                                                                      color: pickerColor,
-                                                                      letterSpacing: 0.3,
-                                                                      overflow: TextOverflow.ellipsis
-                                                                  ),)
-                                                              )
-
+                                                                  color: pickerColor,
+                                                                  letterSpacing: 0.3,
+                                                                  overflow: TextOverflow.ellipsis
+                                                              ),),
                                                             )
                                                           ]
                                                       )
@@ -415,8 +390,55 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                     )
                                 ),
 
-                             */
                                 Padding(
+                                  padding:EdgeInsets.only(bottom:height/50.7521,left:0),
+                                  child:
+                                  Row(
+                                      children:[
+                                        GestureDetector(
+                                          onTap: (){
+                                            print(height);
+                                            print(width);
+                                          },
+                                          child: Container(
+                                            height:height/12.6779,
+                                            width: width/5.96610,
+                                            decoration: BoxDecoration(
+                                                color: Colors.grey.shade300,
+                                                 border: Border.all(color: pickerColor,width: 2),
+                                                borderRadius: BorderRadius.circular(5),
+                                                image: widget.userImg==""?
+                                                DecorationImage(image: AssetImage(AvatorImg)):
+                                                DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: NetworkImage(widget.userImg.toString())
+                                                )
+                                            ),
+                                          ),
+                                        ),
+                                      ]
+                                  ),
+                                ),
+                                Padding(
+                                  padding:  EdgeInsets.only(left:width/1.27,bottom: height/55),
+                                  child: Container(
+                                      height:height/13.2,
+                                      width:width/3.5,
+
+                                      alignment: Alignment.center,
+                                      decoration:BoxDecoration(
+                                          color: Colors.white,
+                                          image:DecorationImage(
+                                              fit:BoxFit.contain,
+                                              image:NetworkImage(
+                                                  DropdownImage==""?
+                                                  widget.companyIMage.toString():DropdownImage.toString())
+                                          )
+                                      )
+                                  ),
+                                ),
+
+                            /*    Padding(
                                   padding: const EdgeInsets.only(bottom: 18.0),
                                   child: Container(
                                       height: height/45.111,
@@ -566,7 +588,7 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                           )
                                       )
                                   ),
-                                ),
+                                ),*/
 
 
                               ],
