@@ -168,6 +168,7 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
             width: width/1,
             child: Column(
               children: [
+                SizedBox(height: 80,),
                 Stack(
                   alignment: Alignment.center,
                   children: [
@@ -178,7 +179,7 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                           controller: controller,
                           child:
                           Container(
-                            height:height/1.59+height/adjustableheight,
+                            height:height/2.3,
                             width: width/1.03885,
                             decoration: BoxDecoration(
                                 color: Colors.white,
@@ -192,242 +193,283 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                               children: [
 
                                 Padding(
-                                  padding:  EdgeInsets.only(bottom: height/10.7),
-                                  child: heightcalculate==false?
-                                    Container(
-                                    height:height/1.59+height/adjustableheight,
-                                     // height:height/2.0,
-                                      width: width/1.03885,
-                                      decoration: BoxDecoration(
-                                        color:Colors.white,
-                                        image:
-                                        DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: NetworkImage(widget.img.toString(),),
-                                        )
+                                  padding: EdgeInsets.only(bottom: height * 0.00496),
+                                  child: heightcalculate == false
+                                      ? Container(
+                                    width: width * 0.963,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      image: DecorationImage(
+                                        image: NetworkImage(widget.img.toString()),
                                       ),
-                                  ):
-                                     Container(
-                                       height:height/1.59,
-                                       width: width/1.03885,
-                                    color:Colors.white,
-                                    child: const Center(child: CircularProgressIndicator()),
+                                    ),
                                   )
+                                      : Container(
+                                    height: height * 0.628,
+                                    width: width * 0.963,
+                                    color: Colors.white,
+                                    child: const Center(child: CircularProgressIndicator()),
+                                  ),
                                 ),
 
                                 Padding(
-                                  padding:EdgeInsets.only(bottom:height/14.1967,right:width/4.11,left:width/6.044117647058824),
-                                  child:
-                                  SizedBox(
-                                    child:Stack(
-                                        alignment: Alignment.bottomCenter,
-                                        children:[
-                                          CustomPaint(
-
-                                            size: Size(width,(width*0.333333333333334).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+                                  padding: EdgeInsets.only(
+                                      bottom: height * 0.075,
+                                      right: 0,
+                                      left: width * 0.165),
+                                  child: SizedBox(
+                                    child: Stack(
+                                      alignment: Alignment.bottomCenter,
+                                      children: [
+                                        Container(
+                                          width: width * 0.556,
+                                          height: height * 0.0248,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: width * 0.233),
+                                          child: CustomPaint(
+                                            size: Size(width, (width * 0.3333)),
                                             painter: painter,
                                           ),
-                                          Align(
-                                              alignment: Alignment.bottomLeft,
-                                              child:Padding(
-                                                  padding:EdgeInsets.only(left:width/50.2),
-                                                  child:
-                                                  FittedBox(
-                                                    child:Row(
-                                                        children:[
-
-                                                          Icon(Icons.circle,color:Colors.white,size:width/38.1),
-                                                          Padding(
-                                                              padding:EdgeInsets.only(left:width/50.2),
-                                                              child: Text(widget.companyName.toString(),style: TextStyle(
-                                                                color: Colors.white,
-                                                                letterSpacing: 0.3,
-                                                                fontWeight:FontWeight.w500,
-                                                                fontSize:width/27.0126,
-
-                                                              ),)
-                                                          )
-                                                        ]
+                                        ),
+                                        Align(
+                                          alignment: Alignment.bottomLeft,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: width * 0.02),
+                                            child: FittedBox(
+                                              child: Row(
+                                                children: [
+                                                  Icon(Icons.business,
+                                                      color: Colors.white, size: width * 0.036),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(left: width * 0.02),
+                                                    child: Text(
+                                                      widget.companyName.toString(),
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        letterSpacing: 0.3,
+                                                        fontWeight: FontWeight.w500,
+                                                        fontSize: width * 0.037,
+                                                      ),
                                                     ),
-                                                  )
-                                              )),
-
-                                        ]
-                                    )
-                                  )
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-
-                                Container(
-                                  height:height/2.9862,
-                                    width: width/1.03885,
-                                  margin:EdgeInsets.only(bottom:height/50.55),
-                                    child:CustomPaint(
-                                      size: Size(width,(width*0.833333333333334).toDouble()), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-                                      painter: RPSCustomPainter2(
-                                      ),
-                                    )
-                                ),
-                                //image
 
                                 Padding(
-                                  padding:  EdgeInsets.only(left:width/5.7,bottom:height/22.0),
-                                  child:
-                                  Row(
+                                  padding: EdgeInsets.only(bottom: height * 0.0166),
+                                  child: Container(
+                                    height: height * 0.402,
+                                    width: width * 0.963,
+                                    margin: EdgeInsets.zero,
+                                    decoration: const BoxDecoration(),
+                                    child: CustomPaint(
+                                      size: Size(width, (width * 0.8333)),
+                                      painter: RPSCustomPainter2(),
+                                    ),
+                                  ),
+                                ),
+
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: width * 0.175, top: height * 0.31),
+                                  child: Row(
                                     children: [
-
                                       Container(
-                                          height: height/42.57894736842105,
-                                          width: width/3.0,
-                                          color:Colors.white,
-
-                                          child:Align(
-                                              alignment: Alignment.centerLeft,
-                                              child:
-                                              FittedBox(
-                                                  child:Row(
-                                                      children:[
-                                                        Icon(Icons.person,color:pickerColor,size:width/22.1),
-
-                                                        Padding(
-                                                          padding:EdgeInsets.only(left:width/82.2),
-                                                          child:Text("${widget.userName.toString()}", style: TextStyle(
-                                                              color: pickerColor,
-                                                              letterSpacing: 0.3,
-                                                              overflow: TextOverflow.ellipsis
-                                                          ),),
-                                                        )
-                                                      ]
-                                                  )
-                                              ))
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.person, color: pickerColor, size: 16),
+                                              Padding(
+                                                padding: EdgeInsets.only(left: width * 0.0122),
+                                                child: Text(
+                                                  "${widget.userName.toString()}",
+                                                  style: TextStyle(
+                                                    color: pickerColor,
+                                                    letterSpacing: 0.3,
+                                                    fontSize: 16,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-
-                                      Container(
-                                          height: height/42.57894736842105,
-                                          width: width/2.78,
-                                          color:Colors.white,
-                                          child:
-                                          Align(
-                                              alignment: Alignment.centerLeft,
-                                              child:
-                                              FittedBox(
-                                                  child:Row(
-                                                      children:[
-                                                        Icon(Icons.mark_unread_chat_alt_rounded,color:pickerColor,size:width/22.1),
-                                                        Padding(
-                                                          padding:EdgeInsets.only(left:width/82.2),
-                                                          child:Text("${widget.userPhone.toString()}", style: TextStyle(
-
-                                                              color: pickerColor,
-                                                              letterSpacing: 0.3,
-                                                              overflow: TextOverflow.ellipsis
-                                                          ),),
-                                                        )
-                                                      ]
-                                                  )
-                                              ))
+                                      Padding(
+                                        padding: EdgeInsets.only(left: width * 0.0166),
+                                        child: Container(
+                                          child: Align(
+                                            alignment: Alignment.centerLeft,
+                                            child: FittedBox(
+                                              child: Row(
+                                                children: [
+                                                  Icon(Icons.mark_unread_chat_alt_rounded,
+                                                      color: pickerColor, size: 16),
+                                                  Padding(
+                                                    padding: EdgeInsets.only(left: width * 0.0122),
+                                                    child: Text(
+                                                      "${widget.userPhone.toString()}",
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: pickerColor,
+                                                        letterSpacing: 0.3,
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
 
                                 Padding(
-                                    padding:  EdgeInsets.only(left:width/5.7,bottom:height/46.8),
-                                    child:
-                                    Row(
-                                        children:[
-                                          Container(
-                                              height: height/42.57894736842105,
-                                              width: width/3.0,
-                                              color:Colors.white,
-                                              child:
-                                              Align(
-                                                alignment: Alignment.centerLeft,
-                                                child:FittedBox(
-                                                    child:Row(
-                                                        children:[
-                                                          Icon(Icons.business_center,color:pickerColor,size:width/22.1),
-                                                          Padding(
-                                                              padding:  EdgeInsets.only(left:width/1000.44),
-                                                              child:Text(" ${companyTypecon.text.toString()}",style: TextStyle(
-
-                                                                  color: pickerColor,
-                                                                  letterSpacing: 0.3,
-                                                                  overflow: TextOverflow.ellipsis
-                                                              ),)
-                                                          )
-                                                        ]
-                                                    )
+                                  padding: EdgeInsets.only(
+                                      left: width * 0.175, top: height * 0.358),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        width: width * 0.335,
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                width: 16,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  image: DecorationImage(
+                                                    fit: BoxFit.contain,
+                                                    image: NetworkImage(
+                                                      DropdownImage == ""
+                                                          ? widget.companyIMage.toString()
+                                                          : DropdownImage.toString(),
+                                                    ),
+                                                  ),
                                                 ),
-                                              )
+                                              ),
+                                              Padding(
+                                                padding: EdgeInsets.only(left: width * 0.001),
+                                                child: Text(
+                                                  " ${companyTypecon.text.toString()}",
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: pickerColor,
+                                                    letterSpacing: 0.3,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-
-                                          Container(
-                                              height: height/42.57894736842105,
-                                              width: width/2.78,
-                                              color:Colors.white,
-                                              child:
-                                              Align(
-                                                  alignment: Alignment.centerLeft,
-                                                  child:
-                                                  FittedBox(
-                                                      child:Row(
-                                                          children:[
-                                                            Icon(Icons.phone,color:pickerColor,size:width/22.1),
-                                                            Padding(
-                                                              padding:EdgeInsets.only(left:width/82.2),
-                                                              child:Text("${widget.userPhone.toString()}", style: TextStyle(
-
-                                                                  color: pickerColor,
-                                                                  letterSpacing: 0.3,
-                                                                  overflow: TextOverflow.ellipsis
-                                                              ),),
-                                                            )
-                                                          ]
-                                                      )
-                                                  ))
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.phone,
+                                                  color: pickerColor, size: width * 0.045),
+                                              Padding(
+                                                padding: EdgeInsets.only(left: width * 0.0122),
+                                                child: Text(
+                                                  "${widget.userPhone.toString()}",
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: pickerColor,
+                                                    letterSpacing: 0.3,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ]
-                                    )
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
 
+
                                 Padding(
-                                  padding:EdgeInsets.only(bottom:height/50.7521,left:0),
-                                  child:
-                                  Row(
-                                      children:[
-                                        GestureDetector(
-                                          onTap: (){
-                                            print(height);
-                                            print(width);
-                                          },
-                                          child: Container(
-                                            height:height/12.6779,
-                                            width: width/5.96610,
-                                            decoration: BoxDecoration(
-                                                color: Colors.grey.shade300,
-                                                 border: Border.all(color: pickerColor,width: 2),
-                                                borderRadius: BorderRadius.circular(5),
-                                                image: widget.userImg==""?
-                                                DecorationImage(image: AssetImage(AvatorImg)):
-                                                DecorationImage(
-                                                    fit: BoxFit.cover,
-                                                    image: NetworkImage(widget.userImg.toString())
-                                                )
+                                  padding: EdgeInsets.only(bottom: height * 0.0248, left: width * 0.0166),
+                                  child: Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          print(height);
+                                          print(width);
+                                        },
+                                        child: Container(
+                                          height: height * 0.0731,
+                                          width: width * 0.149,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade300,
+                                            border: Border.all(color: pickerColor, width: width * 0.00556),
+                                            borderRadius: BorderRadius.circular(width * 0.0139),
+                                            image: widget.userImg == ""
+                                                ? DecorationImage(image: AssetImage(AvatorImg))
+                                                : DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(widget.userImg.toString()),
                                             ),
                                           ),
                                         ),
-                                      ]
+                                      ),
+                                    ],
                                   ),
                                 ),
+
                                 Padding(
-                                  padding:  EdgeInsets.only(left:width/1.27,bottom: height/55),
+                                  padding: EdgeInsets.only(bottom: 0),
                                   child: Container(
-                                      height:height/13.2,
-                                      width:width/3.5,
+                                    height: height * 0.0221,
+                                    color: pickerColor,
+                                    width: double.infinity,
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: width * 0.0128,
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: FittedBox(
+                                        child: Text(
+                                          shareImgQuote.toString(),
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            letterSpacing: 0.3,
+                                            fontWeight: FontWeight.w500,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+
+
+                                /*  Padding(
+                                  padding:  EdgeInsets.only(left:width/1.25,bottom: 0),
+                                  child: Container(
+                                      height:height/13,
+                                      width:width/2.6,
 
                                       alignment: Alignment.center,
                                       decoration:BoxDecoration(
-                                          color: Colors.white,
+                                          //color: Colors.white,
                                           image:DecorationImage(
                                               fit:BoxFit.contain,
                                               image:NetworkImage(
@@ -436,31 +478,8 @@ class _Photo_View_PageState extends State<Photo_View_Page> {
                                           )
                                       )
                                   ),
-                                ),
-
+                                ),*/
                             /*    Padding(
-                                  padding: const EdgeInsets.only(bottom: 18.0),
-                                  child: Container(
-                                      height: height/45.111,
-
-                                      color:
-                                      pickerColor,
-                                      width: double.infinity,
-                                      padding: EdgeInsets.only(left: width/78.4,right:width/78.4,
-                                      ),
-                                      child:Align
-                                        (   alignment: Alignment.centerLeft,
-                                          child:FittedBox(
-                                            child:Text(shareImgQuote.toString(),style: TextStyle(
-                                                color: Colors.white,
-                                                letterSpacing: 0.3,
-                                                fontWeight:FontWeight.w500,
-                                                overflow: TextOverflow.ellipsis
-                                            ),),
-                                          ))
-                                  ),
-                                ),
-                                Padding(
                                   padding:EdgeInsets.only(bottom:height/13.7521,left:width/45.66666666666667),
                                   child:
                                   Row(
